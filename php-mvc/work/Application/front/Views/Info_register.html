@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册页面</title>
+	<link rel="stylesheet" href="../css/css.css" />
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/main.js"></script>
+	<!--[if IE]>
+		<script src="../js/jquery.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+<h2>注册页面</h2>
+
+<form action="?p=front&c=Info&a=addUser" method="post">
+	<p>昵称： <input type="text" name="nick" /></p>
+	<p>账号： <input type="text" name="account" /></p>
+	<p>密码： <input type="password" name="password" /></p>
+	<p>电子邮件： <input type="text" name="email" value=""></p>
+	<p>QQ 号码：<input type="text" name="qq" value=""></p>
+	<p>电话号码：<input type="text" name="telephone" value=""></p>
+	<p>你最爱的人是谁？ <input type="text" name="safety" value=""></p>
+	<p>年龄：<input type="text" name="age" value=""></p>
+	<p>学历：
+		<select name="edu" >
+			<option value="高中">高中</option>
+			<option value="大学">大学</option>
+			<option value="硕士">硕士</option>
+			<option value="博士">博士</option>
+		</select>
+	</p>
+	<p>爱好：
+		<input type="checkbox" name="hobby[]" value="篮球">篮球
+		<input type="checkbox" name="hobby[]" value="排球">排球
+		<input type="checkbox" name="hobby[]" value="足球">足球
+		<input type="checkbox" name="hobby[]" value="羽毛球">羽毛球
+	</p>
+	<p>地址：
+		<select name="province">
+			<option value="四川省">四川省</option>
+		</select>
+		<select name="city">
+			<option value="绵阳市">绵阳市</option>
+			<option value="德阳市">德阳市</option>
+			<option value="江油市">江油市</option>
+		</select>
+	</p>
+	<p>邮编：<input type="text" name="zcode" value=""></p>
+	<p>学校：<input type="text" name="school" value=""></p>
+	<input type="hidden" name="registerTime">
+	<p>
+		<input type="submit" value="注册">
+		<input type="reset" value="重填">
+	</p>
+</form>
+
+</body>
+</html>
+
+

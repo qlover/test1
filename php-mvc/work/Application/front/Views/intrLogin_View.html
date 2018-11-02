@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用户详细信息</title>
+	<link rel="stylesheet" href="../css/css.css" />
+	<script src="../js/jquery.min.js"></script>
+	<script src="../js/main.js"></script>
+	<!--[if IE]>
+		<script src="../js/jquery.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+<h2>用户详细信息</h2>
+
+<p>账号：<?php echo $data['account']; ?></p>
+<p>用户密码：<?php echo md5($data['password']); ?></p>
+<p>用户最后登录时间：<?php echo $data['loginTime']; ?></p>
+<p>...</p>
+<p><a href="?p=front&c=Login">返回</a></p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

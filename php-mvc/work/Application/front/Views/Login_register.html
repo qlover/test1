@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>注册页面</title>
+	<style type="text/css">
+		table{ border-collapse: collapse; }
+		th,td{
+			padding: 5px 10px;
+			border: 1px solid #000;
+		}
+		span.tip{
+			color: #f00;
+		}
+	</style>
+</head>
+<body>
+<h2>注册页面</h2>
+
+<form action="?p=front&c=Login&a=addUser" method="post">
+	<p>昵称： <input type="text" name="nick" /></p>
+	<p>账号： <input type="text" name="account" /></p>
+	<p>密码： <input type="password" name="password" /></p>
+	<p>
+		<input type="submit" value="注册">
+		<input type="reset" value="重填">
+	</p>
+</form>
+
+</body>
+</html>
+
+
