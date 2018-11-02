@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="player"></div>
+	<script src="jquery.min.js"></script>
+	<script src="jquery.jplayer.min.js"></script>
+	<script>
+		
+	$("#player").jPlayer({
+        ready: function (event) {
+            $(this).jPlayer("setMedia", {
+                title: "Bubble",
+                mp3: "../music/sound-of-silence.mp3"
+            }).jPlayer("play");
+        },
+        supplied: "mp3",
+        wmode: "window",
+        smoothPlayBar: true,
+        keyEnabled: true,
+        remainingDuration: true,
+        toggleDuration: true
+    });
+	</script>
+</body>
+</html>
