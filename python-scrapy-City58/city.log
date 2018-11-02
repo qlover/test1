@@ -1,0 +1,233 @@
+2018-10-21 11:18:15 [scrapy.utils.log] INFO: Scrapy 1.5.0 started (bot: City58)
+2018-10-21 11:18:15 [scrapy.utils.log] INFO: Versions: lxml 4.2.3.0, libxml2 2.9.5, cssselect 1.0.3, parsel 1.5.0, w3lib 1.19.0, Twisted 18.4.0, Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)], pyOpenSSL 18.0.0 (OpenSSL 1.1.0h  27 Mar 2018), cryptography 2.2.2, Platform Windows-7-6.1.7601-SP1
+2018-10-21 11:18:15 [scrapy.crawler] INFO: Overridden settings: {'BOT_NAME': 'City58', 'COOKIES_ENABLED': False, 'LOG_FILE': 'city.log', 'NEWSPIDER_MODULE': 'City58.spiders', 'SPIDER_MODULES': ['City58.spiders']}
+2018-10-21 11:18:15 [scrapy.middleware] INFO: Enabled extensions:
+['scrapy.extensions.corestats.CoreStats',
+ 'scrapy.extensions.telnet.TelnetConsole',
+ 'scrapy.extensions.logstats.LogStats']
+2018-10-21 11:18:15 [py.warnings] WARNING: E:\WorkSpace\City58\City58\rotate_useragent.py:9: ScrapyDeprecationWarning: Module `scrapy.log` has been deprecated, Scrapy now relies on the builtin Python library for logging. Read the updated logging entry in the documentation to learn more.
+  from scrapy import log
+
+2018-10-21 11:18:15 [py.warnings] WARNING: E:\WorkSpace\City58\City58\rotate_useragent.py:16: ScrapyDeprecationWarning: Module `scrapy.contrib.downloadermiddleware.useragent` is deprecated, use `scrapy.downloadermiddlewares.useragent` instead
+  from scrapy.contrib.downloadermiddleware.useragent import UserAgentMiddleware
+
+2018-10-21 11:18:16 [scrapy.middleware] INFO: Enabled downloader middlewares:
+['scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
+ 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
+ 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
+ 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
+ 'City58.rotate_useragent.RotateUserAgentMiddleware',
+ 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
+ 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
+ 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
+ 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
+ 'scrapy.downloadermiddlewares.stats.DownloaderStats']
+2018-10-21 11:18:16 [scrapy.middleware] INFO: Enabled spider middlewares:
+['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
+ 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
+ 'scrapy.spidermiddlewares.referer.RefererMiddleware',
+ 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
+ 'scrapy.spidermiddlewares.depth.DepthMiddleware']
+2018-10-21 11:18:16 [scrapy.middleware] INFO: Enabled item pipelines:
+['City58.pipelines.City58Pipeline']
+2018-10-21 11:18:16 [scrapy.core.engine] INFO: Spider opened
+2018-10-21 11:18:16 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2018-10-21 11:18:16 [scrapy.extensions.telnet] DEBUG: Telnet console listening on 127.0.0.1:6023
+2018-10-21 11:18:16 [py.warnings] WARNING: E:\WorkSpace\City58\City58\rotate_useragent.py:29: ScrapyDeprecationWarning: log.msg has been deprecated, create a python logger and log through it instead
+  log.msg('Current UserAgent: '+ua, level=log.INFO)
+
+2018-10-21 11:18:16 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36
+2018-10-21 11:18:16 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://bj.58.com/renli/> from <GET http://bj.58.com/renli/>
+2018-10-21 11:18:16 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+2018-10-21 11:18:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://bj.58.com/renli/> (referer: None)
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.core.scraper] DEBUG: Scraped from <200 https://bj.58.com/renli/>
+None
+2018-10-21 11:18:20 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+2018-10-21 11:18:24 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://bj.58.com/renli/pn2> from <GET http://bj.58.com/renli/pn2>
+2018-10-21 11:18:24 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+2018-10-21 11:18:28 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (301) to <GET https://bj.58.com/renli/pn2/> from <GET https://bj.58.com/renli/pn2>
+2018-10-21 11:18:28 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+2018-10-21 11:18:31 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://callback.58.com/firewall/verifycode?serialId=c532b7e0db4868efd9c31500f3e499bf_eb9a329b1ad744c4afecbb5101da0c6d&code=22&sign=3811972baa0f0175485f5a7d8f56b69b&namespace=58.com&url=https%3A%2F%2Fbj.58.com%2Frenli%2Fpn2%2F> from <GET https://bj.58.com/renli/pn2/>
+2018-10-21 11:18:31 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0
+2018-10-21 11:18:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://callback.58.com/firewall/verifycode?serialId=c532b7e0db4868efd9c31500f3e499bf_eb9a329b1ad744c4afecbb5101da0c6d&code=22&sign=3811972baa0f0175485f5a7d8f56b69b&namespace=58.com&url=https%3A%2F%2Fbj.58.com%2Frenli%2Fpn2%2F> (referer: None)
+2018-10-21 11:18:35 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50
+2018-10-21 11:18:37 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://bj.58.com/zplvyoujiudian/> from <GET http://bj.58.com/zplvyoujiudian/>
+2018-10-21 11:18:37 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:50.0) Gecko/20100101 Firefox/50.0
+2018-10-21 11:18:41 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://callback.58.com/firewall/verifycode?serialId=c532b7e0db4868efd9c31500f3e499bf_a836e6d026864dc2bdbb3f19fa7a2ca8&code=22&sign=9e7a3ec25b558247434efda8b9f98804&namespace=58.com&url=https%3A%2F%2Fbj.58.com%2Fzplvyoujiudian%2F> from <GET https://bj.58.com/zplvyoujiudian/>
+2018-10-21 11:18:41 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36
+2018-10-21 11:18:46 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://callback.58.com/firewall/verifycode?serialId=c532b7e0db4868efd9c31500f3e499bf_a836e6d026864dc2bdbb3f19fa7a2ca8&code=22&sign=9e7a3ec25b558247434efda8b9f98804&namespace=58.com&url=https%3A%2F%2Fbj.58.com%2Fzplvyoujiudian%2F> (referer: None)
+2018-10-21 11:18:46 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+2018-10-21 11:18:50 [scrapy.downloadermiddlewares.redirect] DEBUG: Redirecting (302) to <GET https://bj.58.com/zpjiudian/> from <GET http://bj.58.com/zpjiudian/>
+2018-10-21 11:18:50 [scrapy.log] INFO: Current UserAgent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36
+2018-10-21 11:18:51 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2018-10-21 11:18:51 [scrapy.core.engine] INFO: Closing spider (shutdown)
+2018-10-21 11:18:51 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
