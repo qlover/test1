@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>full img banner</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+
+</head>
+
+<body>
+
+
+<div id="full" class="nolist">
+	<div id="view">
+		<div id="fix"></div>
+		<ul id="full_banner">
+			<li><img src="../public/img/conan_10.jpg" alt=""></li>
+			<li><img src="../public/img/conan_1.jpg" alt=""></li>
+			<li><img src="../public/img/gd_16.jpg" alt=""></li>
+			<li><img src="../public/img/gd_17.jpg" alt=""></li>
+			<li><img src="../public/img/gd_15.jpg" alt=""></li>
+		</ul>
+		<div id="full_menu">
+			<span class="full_menus sed"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+		</div>
+		<div class="prev"><</div>
+		<div class="next">></div>
+	</div>
+</div>
+
+<div class="centerWindow">
+<p>1.页面不能用点击来操作图片滚动
+<p>2.每次滚动在左右两边的时候会出现相对方向没图状态，并且之后会保持
+<p>3.窗口改变的时候会残留下滚动BUG
+</div>
+
+<!-- 实现 -->
+
+<script type="text/javascript">
+$(function(){
+
+	// var globalParameter = {};
+	var Gp = {
+		E : $('#full_banner'),
+		len : $('#full_banner li').length,
+		wid : $('#full_banner li:first').width(),
+		ind : 0,
+		cic : true,			//二次点击
+		spd : 1000, 
+		iel : 2000,
+		mov : null 
+	};
+
+	$(window).resize(function(){
+  		Gp.wid = $(this).width();
+	});
+
+// wid = 1366
+//Gp.ind = 4 是右边最后一张图片
+//Gp.ind = 5 超出右边了
+
+// 选择点
+function sleDrop(i){
+	if(i>Gp.len-1) i=0; //移动到最后边 的时候让第一个点选中
+	$('.full_menus').eq(i).addClass('sed').siblings().removeClass('sed');
+}
+
+// first position
+function firstFix(){
+	Gp.E.find('li:first').css({position: 'relative',left: '100%'});
+}
+function firstIni(){
+	Gp.E.find('li:first').removeAttr('style');
+}
+
+// last position
+function lastFix(){
+	Gp.E.find('li:last').css({position: 'relative',left: '-100%'});
+}
+function lastIni(){
+	Gp.E.find('li:last').removeAttr('style');
+}
+
+
+// left to baaner
+function lefBan(){
+	Gp.ind+=1;
+	sleDrop(Gp.ind);
+
+	if(Gp.ind == Gp.len-1){
+		firstFix();
+	}
+
+	$('#text').html(Gp.ind);
+	Gp.E.stop().animate({
+		left : Gp.ind * -Gp.wid+'px'
+	}, Gp.spd,function(){
+		//alert('can click');
+		if(Gp.ind == Gp.len){
+			Gp.ind = 0;
+			Gp.E.css('left','0');
+			firstIni();
+		}
+		Gp.cic = true;
+		
+	} );
+	Gp.mov = setTimeout(lefBan,Gp.iel);   // auto run
+}
+
+//begin run
+setTimeout(lefBan,Gp.iel); 
+// right to banner
+function rigBan(){
+	Gp.ind-=1;
+	sleDrop(Gp.ind);
+	if(Gp.ind == 0){
+		lastFix();
+	}
+	$('#text').html(Gp.ind);
+	Gp.E.stop().animate({
+		left : Gp.ind * -Gp.wid+'px'
+	}, Gp.spd , function(){
+		if(Gp.ind == -1){
+			Gp.ind = 4;
+			Gp.E.css('left',Gp.ind * -Gp.wid+'px');
+			lastIni();
+		}
+
+		Gp.cic = true;		//解除点击
+	});
+	Gp.mov = setTimeout(rigBan,Gp.iel);
+}
+// rigBan();
+// click next
+$('.next').click(function(){
+	// can click
+	if(Gp.cic){
+		clearTimeout(Gp.mov);
+		Gp.cic = false;		// 锁定点击
+		lefBan();
+	}else{	//can't click
+		return false;
+	}
+});
+// click prev
+$('.prev').click(function(){
+	if(Gp.cic){		//can click
+		clearTimeout(Gp.mov);
+		Gp.cic = false;		// 锁定点击
+		rigBan();
+	}else{	//can't click
+		return false;
+	}
+});
+
+
+});
+</script>
+
+</body>
+</html>

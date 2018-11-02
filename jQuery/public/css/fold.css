@@ -1,0 +1,83 @@
+
+/* fold 下的样式*/
+@charset "utf-8";
+  body{
+    display: none;
+  }
+  /*元素样式*/
+/*-----------------------------------------------------*/
+.conwrap{
+  margin: 20px 10px;
+  font-size: 1em;
+  width: 200px;
+  background: #bbb;
+  box-shadow: 2px 2px 4px #888;
+  float: left;
+}
+.conwrap .conwrap_title{
+  font-size: 1.3em;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+.conwrap .conwrap_title h2{
+  font-size: 1em;
+  letter-spacing: 0.5em;
+  display: inline-block;
+  text-align: left;
+
+}
+.conwrap .conwrap_con{
+  font-size: 0.9em;
+  background: #ccc;
+  text-align: left;
+  padding:10px 20px;
+  overflow: hidden;
+}
+.conwrap .conwrap_con  span{
+  letter-spacing: 1px;
+  display: block;
+  margin: 2px 0 ;
+}
+.conwrap .conwrap_foot{
+  font-size: 0.7em;
+  padding: 15px 10px;
+}
+
+.conwrap .conwrap_foot .fold_show{
+  float: right;
+  letter-spacing: 5px;
+  color: #800;
+  cursor: pointer;
+}
+/*-----------------------------------------------------*/
+
+/*空白样式*/
+/*-----------------------------------------------------*/
+
+.space_con{
+  height: 50px;
+  background: #bbb;
+  text-align: center;
+  clear: both;
+  cursor: default;
+  line-height: 50px;
+}
+.space_con span{
+  width: 50px;
+  height: 50px;
+  font-size: 1.3em;
+  color: #900;
+  cursor: pointer;
+}
+.space_con span:hover{
+  color: #c00;
+}
+
+
+/*-----------------------------------------------------*/
+
+/*用高度*/
+.fold{
+  /*height:10px;*/
+}

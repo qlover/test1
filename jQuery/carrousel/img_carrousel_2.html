@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋转木马图片滚动</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+</head>
+<body>
+
+<div id="carrousel">
+	<div id="wrap">
+		<div id="view">
+			<ul id="imgs">
+				<li><img src="../public/img/conan_3.jpg" alt=""></li>
+				<li><img src="../public/img/conan_8.jpg" alt=""></li>
+				<li><img src="../public/img/gd_16.jpg" alt=""></li>
+				<li><img src="../public/img/conan_10.jpg" alt=""></li>
+				<li><img src="../public/img/conan_5.jpg" alt=""></li>
+			</ul>				
+		</div>
+		<div id="drop_menu">
+			<span class="drops"></span>
+			<span class="drops"></span>
+			<span class="drops sed"></span>
+			<span class="drops"></span>
+			<span class="drops"></span>
+		</div>
+		<div class="prev"><</div>
+		<div class="next">></div>
+	</div>
+</div>
+
+
+<!-- 实现 -->
+<script type="text/javascript">
+//  存放每张图片的大小
+var json = [
+	{
+		width :300,
+		height : 150,
+		top : 20,
+		left : 150,
+		opacity : 0.2,
+		z : 1
+	},
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 0,
+		opacity : 0.68,
+		z : 2
+	},
+	{
+
+		width : 600,
+		height : 300,
+		top : 50,
+		left : 200,
+		opacity : 1,
+		z : 3
+	},
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 600,
+		opacity : 0.68,
+		z : 2
+	},
+	{
+		width : 300,
+		height : 150,
+		top : 20,
+		left : 550,
+		opacity : 0.2,
+		z : 1
+	},
+
+];
+
+var lis = $('#imgs li');
+var stp = false;		//解决函数节流的问题,是否可以点击
+var timer = null;
+
+var nowInd = 2;
+
+// 点击点时所执行的动画 
+function dropSpin(ind){
+	//  如果点击的点是当初被选中的点，则不执行任何动作
+	if( ind == nowInd){
+		// alert('等于');
+		return false;
+	}
+	/*
+		这里在要解释下，首先要知道当前被选中点 nowInd 的下标索引
+		然后判断用户点击每个点 （ind 为用户点击时传过来的索引）的索引与	nowInd 比较
+		如果小于了，就反复执行数组向右旋转的数组操作
+			比如：当前 nowInd = 2,点击的下标为 1 ，则执行一次数组操作，因为  1 < 2,循环只有一次
+								  点击的下标为 0 ，则执行二次数组操作，因为 0 < 2，循环有两次
+		同样，如果大于了就反复执行数组向左旋转的数组操作
+	*/
+	// 如果小于就重复执行向左旋转时候的数组操作
+	else if( ind < nowInd){
+		for(var i=ind; i < nowInd; i++ ){
+			json.push(json.shift());
+		}
+	}
+	// 因为点击的是大于当初被选中的点，就重复执行向右旋转的数组操作
+	else{
+		for(var i=ind ;  i > nowInd; i-- ){
+			json.unshift(json.pop());
+		}
+	}
+	
+	// 用当前的 json 数组来找出当前是第几张图片最大
+	for(var i=0; i < json.length; i++){
+		if( json[i].width == 600){
+			nowInd = i;		//找到了就选中该点
+			break;
+		}
+	}
+	selDrop(nowInd);
+	// 执行滚动动画
+	$.each(lis,function(i) {
+		lis.eq(i).css('zIndex',json[i].z).stop().animate(json[i],700,function(){
+			clearInterval(timer);		//开启定时器之前要清除一次
+			stp = false;				//再次能够点击
+			timer = setInterval(function(){
+				spin(true);
+			},2000);
+		});
+	});
+
+}
+
+//select dorps
+function selDrop(ind){
+	$('.drops').eq(ind).addClass('sed').siblings().removeClass('sed');
+	nowInd = ind;
+}
+
+// spin banner
+function spin(bool){
+	//向左旋转
+	if(bool){
+		//将第一个样式放到最后一个去
+		json.push(json.shift());
+	}else{
+		//将最后一个样式放到最后去
+		json.unshift(json.pop());
+	}
+
+	// 用当前的 json 数组来找出当前是第几张图片最大
+	for(var i=0; i < json.length; i++){
+		if( json[i].width == 600){
+			selDrop(i);		//找到了就选中该点
+			break;
+		}
+	}
+
+	// 执行滚动动画
+	$.each(lis,function(i) {
+		
+		lis.eq(i).css('zIndex',json[i].z).stop()				// z-index 这个属性不能做动画，所以要先给这个值
+			.animate(json[i],700 ,function(){
+				clearInterval(timer);		//开启定时器之前要清除一次
+				stp = false;
+				timer = setInterval(function(){
+					spin(true);
+				},2000);
+			});
+	});
+}
+spin();		//初始让图片定位
+/*timer = setInterval(function(){
+	spin(true);
+},2000);*/
+$('.next').on('click',function(){
+	if( stp ){		// 首先判断是否可以点击 
+		return false;
+	}else{		//如果为假可以点击一次
+		clearInterval(timer);
+		stp = true;
+		spin(true);
+	}
+	
+});
+$('.prev').on('click',function(){
+	if( stp ){
+		return false;
+	}else{
+		clearInterval(timer);		//清除定时器
+		stp = true;
+		spin(false);
+	}
+});
+
+
+$('.drops').on('click',function() {
+	if( stp ){
+		return false;
+	}else{
+		clearInterval(timer);		//清除定时器
+		stp = true;
+		dropSpin($(this).index());
+	}
+	
+	// alert($(this).index());
+});
+
+
+</script>
+
+</body>
+</html>

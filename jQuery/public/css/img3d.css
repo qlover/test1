@@ -1,0 +1,99 @@
+@charset 'utf-8';
+
+	#wrap-3d {
+		height: 360px;
+		width: 800px;
+		position: relative;
+		margin: auto;
+		
+	}
+	#wrap-3d .banner,
+	#wrap-3d .banner ul{
+		height: 360px;
+		width: 800px;
+		position: relative;
+		margin: auto;
+		perspective: 800px; 
+	}
+
+	#wrap-3d .banner ul li{
+		list-style: none;
+		height: 360px;
+		width: 200px;
+		float: left;
+		position: relative;
+		transform-style: preserve-3d;   
+		transition:1s;
+		transform: translateZ(-180px);
+	}
+
+
+
+	#wrap-3d .banner ul li > div{
+		height: 360px;
+		width: 100%;
+		position: absolute;
+		text-align: center;
+		line-height: 360px;
+		/*z-index: 1;*/
+	}
+
+
+	/*
+	 *  每个 3D 盒子位置
+ 	 *
+	 **/
+	/* 构建 3D 盒子*/
+
+	#wrap-3d .banner ul li div:nth-child(1){
+		background-image: url('../img/bg_1.jpg');
+		transform: translateZ(180px) rotateX(90deg);  
+		transform-origin: bottom; bottom: 360px;
+	}
+	/* 下一面 */
+	#wrap-3d .banner ul li div:nth-child(2){
+		background-image: url('../img/bg_2.jpg');
+		transform: translateZ(180px) rotateX(-90deg);
+		transform-origin:top;  top: 360px;
+	}
+
+	/* 前一面*/
+	#wrap-3d .banner ul li div:nth-child(3){
+		background-image: url('../img/bg_3.jpg');
+		transform: translateZ(180px);
+	}
+	/* 后一面 */
+	/* 需要在 Z 轴位移 */
+	#wrap-3d .banner ul li div:nth-child(4){
+		background-image: url('../img/bg_4.jpg');
+		transform: translateZ(-180px) rotateX(180deg);		
+	}
+
+	/*这两面可以不用管，只为构建 3D 盒子*/
+	/* 左一面与右一面 */
+	#wrap-3d .banner ul li div:nth-child(5),
+	#wrap-3d .banner ul li div:nth-child(6){
+		display: none;
+	}
+	/* 左一面 */
+	#wrap-3d .banner ul li div:nth-child(5){
+		transform: translateZ(180px)  rotateY(-90deg);
+		transform-origin: right; right: 200px;
+		width: 360px; /*  ！important */
+	}
+	/* 右一面 */
+	#wrap-3d .banner ul li div:nth-child(6){
+		transform: translateZ(180px)  rotateY(90deg);
+		transform-origin: left; left: 200px;
+		width: 360px;   /* ！important */
+	}
+
+	#banner:hover ul li{
+		/* transform: translateZ(-180px) rotateX(180deg); */
+	}
+
+
+.stop{
+	transition:0;
+	transform:translateZ(-180px) rotateX(0deg);
+}

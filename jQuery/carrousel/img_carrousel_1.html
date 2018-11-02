@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋转木马图片滚动</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+</head>
+<body>
+
+<div id="carrousel">
+	<div id="wrap">
+		<div id="view">
+			<ul id="imgs">
+				<li><img src="../public/img/conan_3.jpg" alt=""></li>
+				<li><img src="../public/img/conan_8.jpg" alt=""></li>
+				<li><img src="../public/img/gd_16.jpg" alt=""></li>
+				<li><img src="../public/img/conan_10.jpg" alt=""></li>
+				<li><img src="../public/img/conan_5.jpg" alt=""></li>
+			</ul>				
+		</div>
+		<div class="prev"><</div>
+		<div class="next">></div>
+	</div>
+</div>
+
+
+<!-- 实现 -->
+<script type="text/javascript">
+/*  三个重点
+
+1.用一个数组存放样式对象来定位
+2.函数节流问题，也就是在点击后，在动画执行完成后在点击
+3.开启定时器之前要清除一次，那怕是之前清除过
+*/
+//  存放每张图片的大小
+// 并且用数组下标与图片下标对应，也就是说第一个元素就是第一张图片的样式
+var json = [
+	// 第一张 
+	{
+		width :300,
+		height : 150,
+		top : 20,
+		left : 150,
+		opacity : 0.2,
+		z : 1
+	},
+	// 第二张
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 0,
+		opacity : 0.68,
+		z : 2
+	},
+	// 第三张
+	{
+
+		width : 600,
+		height : 300,
+		top : 50,
+		left : 200,
+		opacity : 1,
+		z : 3
+	},
+	// 第四张
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 600,
+		opacity : 0.68,
+		z : 2
+	},
+	// 第五张
+	{
+		width : 300,
+		height : 150,
+		top : 20,
+		left : 550,
+		opacity : 0.2,
+		z : 1
+	},
+];
+var lis = $('#imgs li');
+var stp = false;		//解决函数节流的问题,是否可以点击
+var timer = null;
+function spin(bool){
+	//向左旋转
+	if(bool){
+		//将第一个样式放到最后一个去
+		json.push(json.shift());
+	}else{
+		//将最后一个样式放到最后去
+		json.unshift(json.pop());
+	}
+	$.each(lis,function(i) {
+		lis.eq(i).css('zIndex',json[i].z).stop()				// z-index 这个属性不能做动画，所以要先给这个值
+			.animate(json[i],700 ,function(){
+				clearInterval(timer);		//开启定时器之前要清除一次
+				stp = false;
+				timer = setInterval(function(){
+					spin(true);
+				},2000);
+			});
+	});
+}
+spin();		//初始让图片定位
+timer = setInterval(function(){
+	spin(true);
+},2000);
+$('.next').on('click',function(){
+	if( stp ){		// 首先判断是否可以点击 
+		return false;
+	}else{		//如果为假可以点击一次
+		clearInterval(timer);
+		stp = true;
+		spin(true);
+	}
+	
+});
+$('.prev').on('click',function(){
+	if( stp ){
+		return false;
+	}else{
+		clearInterval(timer);		//清除定时器
+		stp = true;
+		spin(false);
+	}
+});
+
+
+/*
+旋转思路
+1.用绝对定位来做
+2.给每一张图片设置一张定位
+3.用一个数组把每一张样式保存，并且里面用对象，为了更方便的用 animate 这个方法
+4.如果向左旋转，只需要把最后一个样式变成第一个元素，同理，向右旋转只需要把第一个放到最后就行了
+5.然后在用排好顺序数组里面样式就行了
+*/
+
+</script>
+
+</body>
+</html>

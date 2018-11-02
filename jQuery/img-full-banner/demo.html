@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片全屏滚动</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+</head>
+<body>
+	
+
+<div id="full" class="nolist">
+	<div id="view">
+		<div id="fix"></div>
+		<ul id="full_banner">
+			<li><img src="../public/img/conan_8.jpg" alt=""></li>
+			<li><img src="../public/img/conan_5.jpg" alt=""></li>
+			<li><img src="../public/img/gd_16.jpg" alt=""></li>
+			<li><img src="../public/img/conan_6.jpg" alt=""></li>
+			<li><img src="../public/img/gd_17.jpg" alt=""></li>
+
+		</ul>
+		<div id="full_menu">
+			<span class="full_menus sed"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+		</div>
+		<div data-target="prev" class="pn prev"><</div>
+		<div data-target="next" class="pn next">></div>
+	</div>
+</div>
+<div class="text"></div>
+<!-- 实现 -->
+<script type="text/javascript">
+/**
+ * 代码优化
+ * 
+ */
+var G = {
+	Ele : $('#full_banner'),
+	ind : 0,
+	wid : $(window).width(),
+	len : $('#full_banner li').size(),
+	cic : true,
+	spd : 1000,
+	iel : 3000,
+	dis : 0,
+	mov : null,
+	stp : false,
+	dir : true,		//控制方向
+
+}
+$(window).resize(function(event) {
+	G.wid = $(this).width();
+	$('#fix,#view').width(G.wid);
+	G.Ele.find('li').width(G.wid);
+});
+/*
+	- px 向左走
+	+ px 向右走
+
+	将图片放于右边用 +
+	将图片放于左边用 -
+*/
+function selDrop(ind){
+	if(G.ind >= G.len) G.ind = 0;   // 这里也是为了判断超出了右边时候下标的值
+	$('.full_menus').eq(G.ind).addClass('sed').siblings().removeClass('sed');
+}
+function firstFix(){
+	$('#full_banner li:first').addClass('firstFix');
+}
+
+
+//  banner
+function ban(index){
+	selDrop(index);
+	// $('.text').html(G.ind);
+	G.Ele.stop().animate({
+		left : -(index * G.wid)
+	},G.spd, function(){
+		// 如果超出了最左边
+		if(index <= -1){
+			$('#full_banner li:last').removeClass('lastFix');
+			G.Ele.css('left',-(G.wid*4));			
+		}
+		// 如果超出了最右边
+		if(index >= 5){
+			$('#full_banner li:first').removeClass('firstFix');
+			G.Ele.css('left',0);
+		}
+		// 每次动画执行完成才能点击
+		G.stp = false;				//出不能点击状态
+	});
+}
+
+//  to left banner
+function lefBan(){
+	switch(G.ind){
+		case G.len-1: 			//当滚动到最后一张图片的时候，也就是下标为最后一张图片的下标
+			$('#full_banner li:first').addClass('firstFix');		//定位第一张图片
+		break;
+		case G.len: 			//当滚动到右边溢出的时候
+			G.ind = 0;	//判断滚动到最右边时，下标的值
+		break;
+	}
+	G.ind++;			//先增下标
+	ban(G.ind);			//然后再去执行动画
+}
+
+// to rifht banner
+function rigBan(){
+	switch(G.ind){
+		case 0: 		//当滚动到第一张图片的时候，也就是下标为第一张图片的下标
+			$('#full_banner li:last').addClass('lastFix');  		//定位最后一张图片
+		break; 	 
+		case -1: 		//当滚动到左边溢出的时候
+			G.ind = 4;	//判断滚动到最左边时，下标的值
+		break;
+	}	
+	G.ind--;
+	ban(G.ind);
+}
+
+// click drop
+$('.full_menus').click(function(){
+	G.ind = $(this).index();
+	// 不能点击状态中
+	if(G.stp){		//如果在不能点击的状态
+		return false;   // 先判断能不能点击，因为要在点击过后再给定时器
+	}
+	//能点击状态中
+	else{
+		clearInterval(G.mov);
+		G.stp = true;		//进入不能点击状态
+		ban(G.ind);		
+	}
+	G.mov = setInterval( lefBan, G.iel );  //点击过后再定时
+});
+// auto banner
+G.mov = setInterval( lefBan, G.iel );
+
+
+/**
+ * 事件
+ */
+
+$('.pn').on('click', function(event) {
+	if(G.stp) return false;
+	var dir = $(this).attr('data-target');
+	clearInterval(G.mov);
+	G.stp = true;
+
+	if( dir == 'prev'){
+		rigBan(G.ind);
+	}else if( dir == 'next'){
+		lefBan(G.ind);
+	}
+	G.mov = setInterval( lefBan, G.iel );   //点击过后再定时
+});
+
+
+
+</script>
+
+
+</body>
+</html>

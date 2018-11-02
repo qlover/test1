@@ -1,0 +1,170 @@
+/*左右轮播*/
+.web{
+  width: 500px;
+  height: 300px;
+  margin: 10px auto;
+  padding: 10px;      /* 边框留白部分 */
+  background: #d32;
+}
+.web .wrap{   /* 固定层 */
+  width: 500px;
+  height: 300px;
+  position: relative;
+  left: 50%;
+  margin-left: -250px;
+  border-radius: 4px;
+  background: #eee;
+  overflow: hidden;  /* 阻止多余部分的溢出 */
+}
+.web .wrap .banner{ /* 滚动层 */
+  
+  width: 550%;  /*有几张图片就 百分之几百 */
+  height: 300px;
+  z-index: 10;
+  /* 用定位滚动 */
+    
+  position: absolute;
+  left: 0;
+  top: 0;
+  
+  /* 用 transform 滚动 */
+  /*
+  transition:1s;
+  transform: translateX(-520px);     /* 每次滚动固定层宽加上 右边距 */
+}
+.web .wrap .banner img{   /* 总宽等于固定层的宽 */
+  width: 480px;  
+  height: 280px;
+  border: 2px solid #559;
+  border-radius: 4px;
+  margin-right: 20px;
+  float: left;
+  padding: 8px;
+  display: block;
+
+}
+
+/* 全屏滚动 */
+#full{
+  width:100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+#full #view{
+  width:100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#full #fix{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: rgba(10,10,10,0.2);
+  z-index: 10;    /* 第二层 */
+}
+
+#full #full_banner{
+  position: absolute;
+  left: 0; top: 0;
+  width: 500%;
+  height: 100%; 
+  z-index: 1;   /* 第一层 */
+}
+
+#full_banner li{
+  float: left;
+  width:20%;
+  height: 100%;
+}
+
+
+#full_menu{
+  width: 200px;
+  position: absolute;
+  left:50%;
+  margin-left: -100px;
+  bottom: 10%;
+  z-index: 20;    /* 第三层 */
+}
+#full_menu .full_menus{
+  display: block;
+  width: 14px;
+  height: 14px;
+  float: left;
+  margin-right: 20px;
+  border:3px solid #fff;
+  background: rgba(250,250,250,0.5);
+  cursor: pointer;
+  border-radius: 50%;
+
+  
+  -webkit-transition: 300ms;
+     -moz-transition: 300ms;
+      -ms-transition: 300ms;
+       -o-transition: 300ms;
+          transition: 300ms;
+}
+#full_menu .full_menus:hover{
+  background: rgba(120,20,20,0.7845);
+}
+#full_menu .sed{
+ background: rgba(155,5,5,0.8948);
+}
+#full_menu .sed:hover{
+  cursor: default;
+ background: rgba(155,5,5,0.8948); 
+}
+
+.firstFix{
+  position: relative;
+  left: 100%;
+}
+.lastFix{
+  position: relative;
+  left: -100%; 
+}
+
+
+/* 旋转木马滚动样式 */
+#carrousel{
+  width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+#carrousel li{
+  list-style: none;
+}
+
+#carrousel #wrap{
+  width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#carrousel #wrap #view{
+  position: relative;
+  width: 1000px;
+  height: 400px;
+}
+
+#carrousel #wrap #view #imgs{
+  width: 100%;
+  height: 100%;
+}
+
+#carrousel #wrap #view li{
+  position: absolute;
+  width: 1000px;
+  height: 400px;
+}
+
+#carrousel #wrap #view li img{
+  width: 100%;
+  height: 100%;
+}

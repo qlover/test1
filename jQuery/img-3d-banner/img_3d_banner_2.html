@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" name="addcss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+
+</head>
+<body>
+	<style id="addcss">  </style>
+	<div id="wrap-3d">
+		<div class="banner">
+			
+
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+
+		</div>
+		<ul id="drop_menu">
+			<li class="drops">1</li>
+			<li class="drops">2</li>
+			<li class="drops">3</li>
+			<li class="drops">4</li>
+		</ul>
+	</div>
+
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+ <script>
+// 实现 3d 旋转图片 banner 效果
+/*
+ * 1. <li><div></div><div></div><div></div><div></div></li>  的个数
+ * 2. #wrap-3d .banner ul li{} 每个 li 的宽度
+ * 3. #wrap-3d .banner ul li:nth-child(i) div{} 的背景图片定位，
+ * 4. #wrap-3d .banner ul li:nth-child(i) {} 的过渡时间
+ * 5. 以及每个 i 过了总长度一半的 zIndex
+ * 6. 事件触发修改样式
+ */
+
+$(function(){
+
+
+Element.prototype.initElement = function( ele, length ){
+	var len = length || 1;
+	this.innerHTML = '';
+	for(var i=0; i < len; i++){
+		this.innerHTML += '\n'+ ele+'\n';
+	}
+	return this;
+}
+
+var sheets = document.styleSheets;  // [object StyleSheetList]  获取页面所有  link 和 style
+var sheet = sheets['addcss'];  // [object CSSStyleSheet]  获取需要添加样式的样式表对象
+var sheetRules = sheet.cssRules; //[object CSSRuleList]  获取该样式表上的所有规则
+// 因为上面获取的样式表并不是 link name='addcss' 而是 id="addcss" 的 style 样式
+// 所以需要改进
+
+
+//*
+function init( num ){
+	var wid = 800 / num;
+	// 用每一次获取到的样式规则的长度来控制 insertRule 的位置
+	var srlen = sheetRules.length;
+
+	// 完成第一步
+	$('#Spin-3D-box')[0]
+		.initElement('<li><div></div><div></div><div></div><div></div></li>', num );
+	// 完成第二步
+	var widstr = '#wrap-3d .banner ul li{ width:' + wid +'px ;}';
+	sheet.insertRule( widstr,srlen);
+	// 完成第三步
+	for(var i = 0; i < num; i++){
+		srlen = sheetRules.length;
+		var bpstr = "#wrap-3d .banner ul li:nth-child("+(i+1)+") div{ ";
+		bpstr += "background-position:"+ ( -i * wid ) +"px}";
+		sheet.insertRule( bpstr,srlen);
+	}
+
+	// 完成第四步
+	for(var i = 0,z = 0; i < num; i++){
+		srlen = sheetRules.length;
+		var tstr = '#wrap-3d .banner ul li:nth-child('+ (i+1) +'){ ';
+		// 完成第五步
+		if ( i > num /2 ) {
+			tstr += 'z-index:'+ (--z) +';';
+		}
+		tstr += 'transition: 1s '+ 0.5*i / (num-1) +'s;}';
+		sheet.insertRule( tstr,srlen);
+	}
+
+}
+
+
+init(8);
+
+
+	$('.drops').each(function(i){
+		$(this).click(function(event) {
+			var $ind = $(this).index();
+			$("#wrap-3d .banner ul li").css({
+				transform: 'translateZ(-180px) rotateX('+ $ind * 90 +'deg)'
+			});
+		});
+	});
+
+//*/
+
+
+
+	
+
+
+
+});
+
+ </script>
+</body>
+</html>

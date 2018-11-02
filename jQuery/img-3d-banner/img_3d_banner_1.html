@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" id="addCss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+
+</head>
+<body>
+	<style id="addcss">  </style>
+	<div id="wrap-3d">
+		<div class="banner">
+			
+
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+
+		</div>
+		<ul id="drop_menu">
+			<li class="drops">1</li>
+			<li class="drops">2</li>
+			<li class="drops">3</li>
+			<li class="drops">4</li>
+		</ul>
+	</div>
+
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+ <script>
+
+$(function(){
+
+/*	var cr = document.styleSheets[1].cssRules;
+	alert(cr[0].cssText);
+*/
+	init(10);
+
+// li>div 个数
+function init( num ){
+	var s='',c='';
+	var wid = 800 / num;
+	c += '\n#wrap-3d .banner ul li{ width:' + wid +'px ;}';
+	for(var i=0,z=0; i <num; i++){
+		s+= '<li><div></div><div></div><div></div><div></div></li>';
+		if( i > num / 2 ){
+			z--;
+			c += '\n#wrap-3d .banner ul li:nth-child('+ (i+1) +'){ z-index:'+ z +';}';
+		}
+		c += '\n#wrap-3d .banner ul li:nth-child('+ (i+1) +'){ transition: 1s '+ 0.5*i / (num-1) +'s;}';
+		c += '\n#wrap-3d .banner ul li:nth-child('+ (i+1) +') div{ background-position:'+ ( -i * wid ) +'px ;}';
+
+	}
+	$('#Spin-3D-box').html(s);
+	$('#addcss').html(c);
+}
+
+	$('.drops').each(function(i){
+		$(this).click(function(event) {
+			var $ind = $(this).index();
+			$("#wrap-3d .banner ul li").css({
+				transform: 'translateZ(-180px) rotateX('+ $ind * 90 +'deg)'
+			});
+		});
+	});
+
+
+
+
+});
+ </script>
+</body>
+</html>

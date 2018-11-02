@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片全屏滚动</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+</head>
+<body>
+	
+
+<div id="full" class="nolist">
+	<div id="view">
+		<div id="fix"></div>
+		<ul id="full_banner">
+			<li><img src="../public/img/conan_9.jpg" alt=""></li>
+			<li><img src="../public/img/conan_12.jpg" alt=""></li>
+			<li><img src="../public/img/gd_16.jpg" alt=""></li>
+			<li><img src="../public/img/gd_18.jpg" alt=""></li>
+			<li><img src="../public/img/conan_5.jpg" alt=""></li>
+		</ul>
+		<div id="full_menu">
+			<span class="full_menus sed"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+			<span class="full_menus"></span>
+		</div>
+	</div>
+</div>
+<div class="text"></div>
+<!-- 实现 -->
+<script type="text/javascript">
+var G = {
+	Ele : $('#full_banner'),
+	ind : 0,
+	wid : $(window).width(),
+	len : $('#full_banner li').size(),
+	spd : 1000,
+	iel : 3000,
+	dis : 0,
+	mov : null,
+	stp : false,
+	dir : true,		//控制方向
+
+}
+$(window).resize(function(event) {
+	G.wid = $(this).width();
+	$('#fix,#view').width(G.wid);
+	G.Ele.find('li').width(G.wid);
+});
+/*
+	- px 向左走
+	+ px 向右走
+
+	将图片放于右边用 +
+	将图片放于左边用 -
+*/
+function selDrop(ind){
+	$('.full_menus').eq(G.ind).addClass('sed').siblings().removeClass('sed');
+}
+function firstFix(){
+	$('#full_banner li:first').addClass('firstFix')
+}
+
+function lefban(){
+	
+	// $('.text').html(G.ind);
+	selDrop(G.ind);
+
+	G.dis = G.ind * G.wid; 
+	G.Ele.stop().animate({
+		left : -G.dis
+	}, G.spd,function(){
+		//回调一次，如果已经过了最右边则回到第一张
+
+		if(G.ind >= G.len){
+			G.ind = 0;
+			// $('.text').html(G.ind);
+			selDrop(G.ind);
+			G.Ele.css('left','0');
+			G.Ele.find('li:first').removeClass('firstFix');
+
+			return false;
+		}
+		G.ind+=1;
+	});
+	// 将第一张定位
+	if( G.ind > G.len-1 ){
+		firstFix();
+	}
+}
+G.mov = setInterval(lefban,G.iel);
+
+</script>
+
+
+</body>
+</html>

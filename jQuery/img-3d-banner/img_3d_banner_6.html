@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" id="addcss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+	<script src="../public/js/Funs.js"></script>
+
+</head>
+<body>
+	
+	<div id="wrap-3d">
+		<div class="banner">
+			
+
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+
+		</div>
+		<ul id="drop_menu" style="width:160px;margin-left:-80px;" >
+			<li class="drops sed"></li>
+			<li class="drops"></li>
+			<li class="drops"></li>
+			<li class="drops"></li>
+		</ul>
+	</div>
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+ <script>
+// 实现 3d 无缝旋转图片 banner 效果
+/*
+ * 1. <li><div></div><div></div><div></div><div></div></li>  的个数
+ * 2. #wrap-3d .banner ul li{} 每个 li 的宽度
+ * 3. #wrap-3d .banner ul li:nth-child(i) div{} 的背景图片定位，
+ * 4. #wrap-3d .banner ul li:nth-child(i) {} 的过渡时间
+ * 5. 以及每个 i 过了总长度一半的 zIndex
+ * 6. 事件触发修改样式
+ * 7. 为每次旋转时的动画加上过渡样式，不再在元素上用 style 添加而是用 addClass() 添加 
+ */
+
+
+//*
+
+$(function(){
+
+	
+	Element.prototype.initElement = function( ele, length ){
+		var len = length || 1;
+		this.innerHTML = '';
+		for(var i=0; i < len; i++){
+			this.innerHTML += '\n'+ ele +'\n';
+		}
+		return this;
+	}
+
+	var sHead = '#wrap-3d .banner ul li';
+	var L = {
+		len : 0,	
+		ind : 0,	
+		n : rand(4,99)    // 控制帧数
+	}, W = {
+		totwid : $('#Spin-3D-box').width(),
+		wid : $('#Spin-3D-box').width() / L.n
+	}, Q = {		
+		sht : document.styleSheets[2],
+		Li : '<li><div></div><div></div><div></div><div></div></li>',
+		spin : $('#Spin-3D-box')[0],
+		stp : false, interval : null, auto : null ,
+		spd : 2000,  // 控制旋转间隔时间
+		iel : 1500    // 控制旋转后时间
+	}, S = {
+		str : sHead + '{ width:' + W.wid +'px ;}',
+	};
+
+
+	(function(){
+		// 初始化页面
+		var init = function( n ){
+			Q.spin.initElement( Q.Li, n );
+			Q.sht.insertRule( S.str, L.len++);
+			for(var i = 0,z = 0 ; i < n; i++, L.len++){
+				S.str = sHead + ':nth-child('+(i+1)+') div{ ';
+				S.str += 'background-position:'+ ( -i * W.wid ) +'px}';
+				Q.sht.insertRule( S.str,L.len++);
+				S.str = sHead + ':nth-child('+ (i+1) +'){ ';
+				if ( i > n /2 ) {
+					S.str += 'z-index:'+ (--z) +';';
+				}
+				S.str += 'transition: 1s '+ 0.5*i / (n-1) +'s;}';
+				Q.sht.insertRule( S.str,L.len);
+
+			}
+			// 完成第七步
+			// 因为这个立方体只能旋转四面
+			// 所以只需要用5个样式来表现旋转样式
+			var spinStr = '';
+			for(var i = 0 ; i < 5; i++, L.len++){
+				spinStr = sHead + '.spin'+ i +'{';
+				spinStr += 'transform : translateZ(-180px) rotateX('+ i * 90 +'deg);}';
+				if( i == 4){
+					spinStr = sHead + '.spin'+ i +'{';
+					spinStr += 'transition : 0; ';
+					spinStr += 'transform : translateZ(-180px) rotateX(0deg);}';
+				}
+				// console.log(spinStr);
+				Q.sht.insertRule( spinStr,L.len);
+			}
+		}
+
+		var spin = function ( i ){
+			selDrop(i); 
+			// console.log(i);
+			if( i == 4){
+				$(sHead).removeClass();
+			}else{
+				$(sHead).removeClass().addClass('spin' + i);
+			}
+		}
+
+		var autoSpin = function () {
+			L.ind %= 4;  // 要先模
+			L.ind++;  // 再加加
+			// console.log( L.ind );
+			spin(L.ind);
+		}
+
+		//select dorps
+		var selDrop = function (i){
+			i%=4;  // 为了在第四张图旋转后能够选中第一个点
+			$('.drops').eq(i).addClass('sed').siblings().removeClass('sed');
+			Q.ind = i;
+		}
+		init( L.n );
+		Q.auto = setInterval(autoSpin, Q.spd);
+					
+		$('.drops').click(function(event) {
+			if( Q.stp ){
+				return ;
+			}else{
+				clearInterval(Q.auto);
+				Q.stp = true;
+				L.ind = $(this).index();
+				spin(L.ind);
+				Q.interval = setTimeout(function(){
+					Q.stp = false;
+					clearInterval(Q.auto);
+					Q.auto = setInterval(autoSpin, Q.spd);
+				}, Q.iel);
+			}
+		});
+
+	})();
+
+
+});
+
+//*/
+// 自动旋转的时候点击有卡顿 BUG 
+ </script>
+</body>
+</html>

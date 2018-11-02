@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片全屏垂直滚动</title>
+	<link rel="stylesheet" href="../public/css/reset.css">
+	<!-- <link rel="stylesheet" href="../public/css/style.css"> -->
+	<link rel="stylesheet" href="../public/css/vertical.css">
+
+</head>
+<body>
+	
+
+<div class="vertical">
+	<div class="vertical-wrap">
+		<div class="vertical-view vbl">
+			<div class="banner-view">
+				<ul class="img-item">
+					<li class="items"><img src="" alt=""></li>
+					<li class="items"><img src="" alt=""></li>
+					<li class="items"><img src="" alt=""></li>
+					<li class="items"><img src="" alt=""></li>
+					<li class="items"><img src="" alt=""></li>
+					<li class="items"><img src="" alt=""></li>
+				</ul>
+			</div>
+			<div class="fix-view">
+								
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="../public/js/jquery.min.js"></script>
+<script src="../public/js/global.js"></script>
+<script>
+	
+
+$(function(){
+
+	var $vbl = $('.vertical .vbl'),
+		$ban = $('.banner-view'),
+		dec = $(window).height(),  // 窗口高度
+		cur = 0,  // 全局指针
+		speed = 0,  // 滚动速度\
+		dir = true,  // 获取滚动方向， 默认向下为 true 
+		stop = false;
+
+	// 私有作用域
+	function t(){
+		stop = false;
+	}
+
+	// animate() 方法实现 
+	function a(dir, bool){
+		// 瞬间定位
+		if( !!bool ){
+			$ban.css('top', -dir);
+			return false;
+		}
+		// 动画定位
+		$ban.animate({top: -dir}, 800, function(){
+			(function(){
+				setTimeout(function(){
+					console.log('can');
+					stop = false;
+				}, 1000);
+			}());
+		});
+	}
+
+	// 过度实现 
+	function b(dir, bool){
+		speed = bool ? 0 : 800;
+		var amin = {
+			'transition' : speed + 'ms ease-in-out',
+			'transform':'translateY(-'+ dir +'px)',		
+		};
+
+		// 瞬间定位
+		if( bool ){
+			$ban.css(amin);
+			return false;
+		}
+
+		// 动画定位
+		$ban.css(amin);
+		setTimeout(t, 1800);
+	}
+
+
+	$vbl.on('mousewheel DOMMouseScroll', function(event) {
+		if( stop ) return ;
+		stop = true;
+		// 正数向上滚动，负数向下滚动
+		var delta = event.originalEvent.wheelDelta ||
+					-event.originalEvent.detail;  // FF
+		dir = delta > 0 ? false : true;
+		cur = delta > 0 ? ( cur-=1 ) : ( cur+=1 );
+		if( cur < 0 ) cur = 0;
+		if( cur > 5 ) cur = 5;
+		b(cur*dec);
+
+		event.stopPropagation();
+	});
+
+	// 改变窗口大小
+	$(window).on('resize', function(event) {
+		$(window).off('mousewheel DOMMouseScroll');
+		dec = $(this).height();
+
+		// 瞬间定位
+		b(cur*dec, true);
+		event.stopPropagation();
+	});
+
+
+	// 键盘事件
+	$(window).on('keydown', function(event) {
+		if ( stop ) return ;
+		stop = true;
+
+		// 获取按键
+		var key = event.which;
+
+		// 取得方向
+
+		// 向上
+		if( key == 38 ){
+			cur -= 1;
+		}
+		// 向下
+		if( key == 40 ){
+			cur += 1;
+		}
+		if( cur < 0 ) cur = 0;
+		if( cur > 5 ) cur = 5;
+		b(cur*dec);
+
+
+	});
+
+
+	// 自动滚动
+
+
+
+
+
+});
+
+
+
+
+</script>
+</body>
+</html>

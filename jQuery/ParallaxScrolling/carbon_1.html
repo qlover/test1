@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视差滚动</title>
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body class="noselectstart">
+	
+	<!-- 视图 -->
+	<div class="cont noselectstart">
+		<!-- 滚动 -->
+        <ul class="slider">
+            <li data-target="1" class="slide slide1"><div class="darkbg darkbg1"></div></li>
+            <li data-target="2" class="slide slide2"><div class="darkbg darkbg2"></div></li>
+            <li data-target="3" class="slide slide3"><div class="darkbg darkbg3"></div></li>
+            <li data-target="4" class="slide slide4"><div class="darkbg darkbg4"></div></li>
+            <li data-target="5" class="slide slide5"><div class="darkbg darkbg5"></div></li>
+        </ul>
+		<!-- 切换 -->
+		<div class="pn prev"></div>
+		<div class="pn next"></div>
+
+	</div>
+    <script src="../Lib/jquery-3.1.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+    <script>
+ /**
+  * 1. 为滚动层创建鼠标点击、鼠标点击时拖动和鼠标拖动完成后释放完成的事件
+  * 2. 在拖动的甚而了添加滚动效果，当然此时会有许多的 Bug
+  * 3. 创建一个核心函数，该函数很重要，控制整个滚动
+  * 4. 为核心函数封装封闭三个状态，1) 向左滚动 2) 向右滚动 3) 当前位置
+  * 5. 在拖动事件完成后判断滚动方向，用拖动长度与窗口的百分比来判断
+  * 6. 也是比较重要的一点，解决事件函数节流问题
+  * 7. 完善拖动图片滚动的几个 bug
+  */
+    var $slider = $('.slider');  // 获取滚动层
+    // 获取控制指针，并非索引，因为索引不好控制全局
+    //      这有个用指针控制全局的方法，见 pagination() 方法
+    var current = 1;  // !* 得到全局的控制指针
+    var winw = $(window).width() * 0.3 ;  // 得到整个窗口的百分比
+    var diff = 0;  // 存放鼠标拖动时的长度
+
+    // 6.1 创建事件监听器
+    var stop = false;
+
+    // 6.2 监听释放函数
+    function timeout(){
+        stop = false;
+    }
+
+    // 3.!*核心函数
+    // dir 为 0 向左拖动
+    // dir 为 1 当前状态
+    // dir 为 2 向右拖动
+    function pagination(dir) {
+        var doing = current - dir;
+        stop = true;
+
+        $slider.addClass('animation').css('transform', 'translate3d(-'+ doing * 100 +'%, 0, 0)')
+            .find('.darkbg').css('transform', 'translate3d('+ doing * 50 +'%, 0, 0)');
+        console.log(current);
+
+    }
+
+    /* 4.封装 pagination() 方法分别执行向左还是向右图片层的滚动 */
+    // 向左滚动
+    function toLeft(){
+        // 7.2 解决当为第一张图片快速向左拖动的 Bug
+        if( current >= 5) return ;
+        pagination(0);
+        // 6.2 允许下一次的图片层滚动
+        setTimeout(timeout, 1000);
+        current++;
+    }
+
+    // 向右滚动
+    function toRight(){
+        // 7.2 解决当为最后张图片快速向右拖动的 Bug
+        if( current <= 1) return ;
+        pagination(2);
+        // 6.2 允许下一次的图片层滚动
+        setTimeout(timeout, 1000);
+        current--;
+    }
+
+    // 保持当前状态
+    function toDefault(){
+        pagination(1);
+        // 7.3
+        setTimeout(timeout, 1000); // 到此，拖动的效果完成了
+    }
+
+
+    // 1. 实现简单的拖动，执行时的动画
+    $(document).on('mousedown', '.slide', function(event) {
+        // 6.3
+        if( stop ) return ;
+        var startX = event.pageX;
+        var target = $(this).attr('data-target');
+
+        $slider.removeClass('animation');  // !*
+        $(document).on('mousemove', function(event) {
+            // 获取拖动的长度
+            diff = startX - (event.pageX);
+            // 7. 
+            //  1) 尽管解决事件流，但是当是第一张图片和最后一张图片时会出现拖动出尽头的 BUG
+            //  2）当为第一张或最后一张图片时，快速向反方向拖动会出尽头的 Bug
+            //  3）还是当点击拖动第一张时让其执行 5. 的 else 状态后会拖动不了图片的卡顿小 bug
+            //         这个很好解决，问题就出在 5. 的 else 状态后把监听器设置成 ture 动不了了
+
+
+            // 7.1判断时需要注意，要先判断是那张图片，因为 && 的短路现象
+            if( target == 1 && diff < 0 ){
+                console.info('不要快速向右拖动');
+                return ;
+            }
+            if( target == 5 && diff >0 ){
+                console.info('不要快速向左拖动');
+                return ;  
+            }
+
+
+
+            $slider.css('transform','translate3d(-' + ((current - 1) * 100 + diff / 30) + '%, 0, 0)')
+                .find('.darkbg').css('transform','translate3d(' + ((current - 1) * 50 + diff / 60) + '%, 0, 0');
+        });
+
+        // 2. 在拖动的基础上来执行图片的滚动
+        $(document).on('mouseup', function(event) {
+            $(document).off('mousemove');
+            // 6.3
+            if( stop ) return ;
+
+            // 执行拖动后的图片层滚动
+            // pagination(0);
+            // 5.判断是否要滚动图片层
+            // 利用拖动长度与整个窗口的百分比比较 
+            if (diff >= winw ) {
+                toLeft();
+            } else if( diff <= -winw) {
+                toRight();
+            } else {
+                toDefault();
+            }
+            // 6. 解决方法
+            // 但是第五步完成后会出现问题，也就在第二次拖动时
+            // current 指向的怪异，每点击搬运一次就会 +1, 这也就出现了一个问题，事件节流的问题
+            // 不管第5. 是否通过的增加
+
+            //  1) 创建一个变量 stop ，该变量用来监听滚动，true 表示不能执行滚动,false 则表示可以
+            //  2）在一个图片层执行完成后才能执行下一个图片层的动画,但要考虑闭包问题，所以用个timeout() 函数
+            //  3) 在为点击和点击后拖动事件时判断一次当前动画是否有效
+
+
+        });
+    });
+
+
+    </script>
+</body>
+</html>

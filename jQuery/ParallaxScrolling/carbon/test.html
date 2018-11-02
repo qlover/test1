@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视差滚动</title>
+	<link rel="stylesheet" href="../reset.css">
+	<link rel="stylesheet" href="carbon.css" />
+</head>
+<body>
+	
+	<!-- 视图 -->
+	<div class="cont">
+		<!-- 滚动 -->
+		<ul class="slider">
+			<li data-target="1" class="slide"><div class="darkbg"></div></li>
+			<li data-target="2" class="slide"><div class="darkbg"></div></li>
+			<li data-target="3" class="slide"><div class="darkbg"></div></li>
+			<li data-target="4" class="slide"><div class="darkbg"></div></li>
+			<li data-target="5" class="slide"><div class="darkbg"></div></li>
+		</ul>
+		<!-- 点 -->
+		<ul class="drop">
+			<li data-target="1" class="drops drops1 active"></li>
+			<li data-target="2" class="drops drops2"></li>
+			<li data-target="3" class="drops drops3"></li>
+			<li data-target="4" class="drops drops4"></li>
+			<li data-target="5" class="drops drops5"></li>
+		</ul>
+		<!-- 切换 -->
+		<div data-target="left" class="pn prev"></div>
+		<div data-target="right" class="pn next"></div>
+	
+	</div>
+<script src="../../Lib/jquery-3.1.1.min.js"></script>
+<script>
+
+
+// 实现视差滚动 
+
+
+/**
+ * 一 布局
+ * 1.一个视图层 .cont，一个滚动层 .slider，
+ * 2.一个索引下标点层 .nav
+ * 3.6张图片，有6个小画框 .slide ，并且在小画框下用一个层来存放一张图片
+ * 4.每张小画框层像普通的滚动横放，但是绝对定位
+ * 5.每张小画框下的图片层同样绝对定位小画框层
+ * 		并且要让图片层 -50% 让其向前溢出小画框层
+ * 6.布局完成，后以滚动层每次 -100% 滚动，每张图片层就以 50% 相加
+ * 		达到 ，两层的不同滚动来做到视差的效果
+ */
+
+
+
+/**
+ * 行为控制
+ *
+ * 1.滚动层向左滚动 -100% 则 每张图片层向右滚动 50%
+ * 2.用一个属性来控制当前的下标，但是这个点要法与之前不同，详细可见 pagination() 方法
+ * 3. $current 属性也重要，因为该属性可以指向当前索引值后的点，原理上是先++ 再执行反方向滚动
+ * 
+ * 
+ */
+
+
+
+$(document).ready(function() {
+
+
+
+
+
+    var $slider = $('.slider');
+    var winw = $(window).width() * 0.2;
+    var current = 1; // 记录当前的图片下标索引值 
+    var stop = false;   // 控制动画函数节流
+    var diff = 0;
+    function timeout() {
+        stop = false;
+    }
+    function pagination(direction) {
+        var cd = current - direction;
+        stop = true;
+        diff = 0;
+        $slider.addClass('animation').css('transform', 'translate3d(-'+ cd * 100 +'%, 0, 0)')
+            .find('.darkbg').css('transform', 'translate3d('+ cd * 50 +'%, 0, 0)');
+    }
+    function toLeft() {
+        if (current >= 5) return;
+        pagination(0);
+        setTimeout(timeout, 1000);
+        current++;
+    }
+    function toRight() {
+        if (current <= 1) return;
+        pagination(2);
+        setTimeout(timeout, 1000);
+        current--;
+    }
+    function toDefault() {
+        pagination(1);
+        setTimeout(timeout, 1000);
+    }
+    $(document).on('mousedown', '.slide', function(e) {
+        if (stop) return;
+        var target = +$(this).attr('data-target');
+        var startX = e.pageX //|| e.originalEvent.touches[0].pageX;
+        $slider.removeClass('animation');
+        $(document).on('mousemove', function(e) {
+            diff = startX - (e.pageX);
+            if (target === 1 && diff < 0 || target === 5 && diff > 0) return;
+            $slider.css('transform','translate3d(-' + ((current - 1) * 100 + diff / 30) + '%, 0, 0)')
+                .find('.darkbg').css('transform','translate3d(' + ((current - 1) * 50 + diff / 60) + '%, 0, 0');
+        });
+    });
+    $(document).on('mouseup', function(e) {
+        $(document).off('mousemove');
+        if (stop) return;
+        if (diff >= winw) {
+            toLeft();
+        } else if (diff <= -winw) {
+            toRight();
+        } else {
+            toDefault();
+        }
+    });
+    $(document).on('click', '.drops:not(.active)', function() {
+        var target = +$(this).attr('data-target');
+        current = target;
+        pagination(1);
+    });
+    $(document).on('mousewheel DOMMouseScroll', function(e) {
+        if (stop) return;
+        var delta = e.originalEvent.wheelDelta;
+        if (delta > 0 || e.originalEvent.detail < 0) toRight();
+        if (delta < 0 || e.originalEvent.detail > 0) toLeft();
+    });
+
+
+
+
+}).on('selectstart', function(event) {
+    event.preventDefault();
+});
+
+
+
+
+
+</script>
+
+</body>
+</html>

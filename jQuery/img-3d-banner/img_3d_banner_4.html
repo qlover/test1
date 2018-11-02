@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" id="addcss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+
+</head>
+<body>
+	
+	<div id="wrap-3d">
+		<div class="banner">
+			
+
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+
+		</div>
+		<ul id="drop_menu">
+			<li class="drops">1</li>
+			<li class="drops">2</li>
+			<li class="drops">3</li>
+			<li class="drops">4</li>
+		</ul>
+	</div>
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+ <script>
+// 实现 3d 旋转图片 banner 效果
+
+$(function(){
+
+
+
+Element.prototype.initElement = function( ele, length ){
+	var len = length || 1;
+	this.innerHTML = '';
+	for(var i=0; i < len; i++){
+		this.innerHTML += '\n'+ ele +'\n';
+	}
+	return this;
+}
+
+var sHead = '#wrap-3d .banner ul li';
+// 长度
+var L = {
+	len : 0,	// 手工定位规则位置
+	ind : 0,	// 索引
+	n : 10 		// 帧数
+},
+// 宽度
+W= {
+	totwid : $('#Spin-3D-box').width(),
+	wid : $('#Spin-3D-box').width() / L.n
+},
+// 元素
+Q = {		
+	sht : document.styleSheets[2],   // 获取需要添加样式的样式表对象
+	Li : '<li><div></div><div></div><div></div><div></div></li>',
+	spin : $('#Spin-3D-box')[0]
+},
+// 字符串
+S = {
+	str : sHead + '{ width:' + W.wid +'px ;}',   // 直接完成第一步
+};
+
+
+//*
+// 初始化页面
+function init( n ){
+	Q.spin.initElement( Q.Li, n );
+	Q.sht.insertRule( S.str, L.len++);
+	for(var i = 0,z = 0 ; i < n; i++, L.len++){
+		S.str = sHead + ':nth-child('+(i+1)+') div{ ';
+		S.str += 'background-position:'+ ( -i * W.wid ) +'px}';
+		Q.sht.insertRule( S.str,L.len++);
+		S.str = sHead + ':nth-child('+ (i+1) +'){ ';
+		if ( i > n /2 ) {
+			S.str += 'z-index:'+ (--z) +';';
+		}
+		S.str += 'transition: 1s '+ 0.5*i / (n-1) +'s;}';
+		Q.sht.insertRule( S.str,L.len);
+	}
+}
+init( L.n );
+
+
+	$('.drops').each(function(i){
+		var $stop = false;
+		$(this).click(function(event) {
+			L.ind = $(this).index();
+			$(sHead).css({
+				transform: 'translateZ(-180px) rotateX('+ L.ind * 90 +'deg)'
+			});
+		});
+	});
+
+//*/
+
+
+});
+
+ </script>
+</body>
+</html>

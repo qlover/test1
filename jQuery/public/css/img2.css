@@ -1,0 +1,63 @@
+@charset 'utf8';
+
+
+#slide {
+	width: 800px;
+	height: 400px;
+	margin: auto;
+	position: relative;
+}
+
+#slide #view {
+	position: relative;
+	overflow: hidden;
+}
+
+#view #banner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+}
+
+#view #banner  ul {
+	background: #a00;
+	height: 100%;
+	position: absolute;
+	width: 300%;
+	left: -100%;
+}
+
+#view #banner  ul li{
+	height: 100%;
+	width: 33.33%;
+	position: absolute;
+	left:  33.33% ;
+	z-index: 1;
+
+}
+
+#view #banner  ul li img{
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+.layer {
+	background-color: rgba(10,10,10,0.2354);
+	cursor: grab;
+	cursor: -webkit-grab;
+	height: 100%;
+	position: absolute;
+	width: 100%;
+	z-index: 15;
+}
+.layer:hover{
+	background-color: rgba(10,10,10,0.112);	
+}
+.layer:active{
+	cursor: grabbing;
+	cursor: -webkit-grabbing;
+}
+.view {
+	left: 33.33%;
+}

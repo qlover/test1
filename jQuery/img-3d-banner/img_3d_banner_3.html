@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" id="addcss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+
+</head>
+<body>
+	
+	<div id="wrap-3d">
+		<div class="banner">
+			
+
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+
+		</div>
+		<ul id="drop_menu">
+			<li class="drops">1</li>
+			<li class="drops">2</li>
+			<li class="drops">3</li>
+			<li class="drops">4</li>
+		</ul>
+	</div>
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+ <script>
+// 实现 3d 旋转图片 banner 效果
+/*
+ * 1. <li><div></div><div></div><div></div><div></div></li>  的个数
+ * 2. #wrap-3d .banner ul li{} 每个 li 的宽度
+ * 3. #wrap-3d .banner ul li:nth-child(i) div{} 的背景图片定位，
+ * 4. #wrap-3d .banner ul li:nth-child(i) {} 的过渡时间
+ * 5. 以及每个 i 过了总长度一半的 zIndex
+ * 6. 事件触发修改样式
+ */
+
+$(function(){
+
+
+Element.prototype.initElement = function( ele, length ){
+	var len = length || 1;
+	this.innerHTML = '';
+	for(var i=0; i < len; i++){
+		this.innerHTML += '\n'+ ele+'\n';
+	}
+	return this;
+}
+
+var link = $('link[href*="_add"]')[0];  // [object HTMLLinkElement] 获取页面的 link 
+var style = $('style')[0];  // [object HTMLStyleElement] 获取页面的 link 
+
+var sheets = document.styleSheets;  // [object StyleSheetList]  获取页面所有  link 和 style
+var sheet = sheets[2];  // [object CSSStyleSheet]  获取需要添加样式的样式表对象
+// chrome 获取的 sheets 对象没有 cssRules 属性，所以不需要下面一句
+//var sheetRules = sheet.cssRules; //[object CSSRuleList]  获取该样式表上的所有规则
+// 与上一个页面相比，这一次获取的就是 link name='addcss' 的样式表 
+
+/* 这是一种网上写的兼容，性能还等测试 */
+/*
+var link = document.querySelector("link");
+var rules=link.sheet.cssRules||link.sheet.rules||document.styleSheets;
+*/
+
+
+
+
+
+//*
+function init( num ){
+	var wid = 800 / num;
+	// chrome 获取不到 sheet.cssRules,所以也没有 length 属性，但还是有 insertRule() 方法
+	// 所以，需要人工来控制插入规则的位置
+	//var srlen = sheetRules.length;
+	var srlen = 0; 
+	// 完成第一步
+	var eachAddLi = '<li><div></div><div></div><div></div><div></div></li>';
+	$('#Spin-3D-box')[0].initElement( eachAddLi, num );
+	// 完成第二步
+	var widstr = '#wrap-3d .banner ul li{ width:' + wid +'px ;}';
+	sheet.insertRule( widstr,srlen++);
+	for(var i = 0,z = 0 ; i < num; i++, srlen++){
+		// 完成第三步
+		var bpstr = "#wrap-3d .banner ul li:nth-child("+(i+1)+") div{ ";
+		bpstr += "background-position:"+ ( -i * wid ) +"px}";
+		sheet.insertRule( bpstr,srlen++);
+		// 完成第四步
+		var tstr = '#wrap-3d .banner ul li:nth-child('+ (i+1) +'){ ';
+		if ( i > num /2 ) {  // 完成第五步
+			tstr += 'z-index:'+ (--z) +';';
+		}
+		tstr += 'transition: 1s '+ 0.5*i / (num-1) +'s;}';
+		sheet.insertRule( tstr,srlen);
+
+	}
+
+}
+
+
+init(50);
+
+
+	$('.drops').each(function(i){
+		$(this).click(function(event) {
+			var $ind = $(this).index();
+			$("#wrap-3d .banner ul li").css({
+				transform: 'translateZ(-180px) rotateX('+ $ind * 90 +'deg)'
+			});
+		});
+	});
+
+//*/
+
+
+
+	
+
+
+
+});
+
+ </script>
+</body>
+</html>

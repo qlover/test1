@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3d spin banner</title>
+	<link rel="stylesheet" href="../public/css/style.css" />
+	<link rel="stylesheet" href="../public/css/img3d.css" />
+	<link rel="stylesheet" href="../public/css/img3d_add.css" id="addcss" />
+	
+	<script src="../public/js/jquery.min.js"></script>
+	<script src="../public/js/img3d.js"></script>
+	<script src="../public/js/Funs.js"></script>
+
+</head>
+<body>
+	
+	<div id="wrap-3d">
+		<div class="banner">
+			<!-- 当然下面的这么多的 li>div 是循环遍历就行了 -->
+			<ul id="Spin-3D-box">
+				
+			</ul>
+		</div>
+		<ul id="drop_menu" style="width:160px;margin-left:-80px;" >
+			<li class="drops sed"></li>
+			<li class="drops"></li>
+			<li class="drops"></li>
+			<li class="drops"></li>
+		</ul>
+	</div>
+<!-- 
+用 JS 控制 每次翻转的数量
+ -->
+
+ <script>
+/*
+ * 优化代码
+ **/
+$(function(){
+
+	// 封装第一步
+	// 为每个元素原型添加新的方法就是封装了第一步
+	Element.prototype.initElement = function( ele, length ){
+		var len = length || 1;
+		this.innerHTML = '';
+		for(var i=0; i < len; i++){
+			this.innerHTML += '\n'+ ele +'\n';
+		}
+		return this;
+	}
+
+	var sHead = '#wrap-3d .banner ul li';
+	var L = {
+		len : 0,	
+		ind : 0,	
+		n : rand(4,99)    // 控制帧数
+	}, W = {
+		totwid : $('#Spin-3D-box').width(),
+		wid : $('#Spin-3D-box').width() / L.n
+	}, Q = {		
+		sht : document.styleSheets[2],
+		Li : '<li><div></div><div></div><div></div><div></div></li>',
+		spin : $('#Spin-3D-box')[0],
+		stp : false, interval : null, auto : null ,
+		spd : 2000,  
+		iel : 1500  
+	}, S = {
+		str : sHead + '{ width:' + W.wid +'px ;}',
+	};
+
+	(function(){
+
+
+
+		// 封装第三步
+		var posBG = function( n ){
+			S.str = sHead + ':nth-child('+ (n+1) +') div{ ';
+			S.str += 'background-position:'+ ( -n * W.wid ) +'px}';
+			Q.sht.insertRule( S.str, ++L.len);
+		}
+
+		// 封装第八步
+		var randImg = function () {
+			for(var i = 0; i < 4; i++){
+				S.str = sHead + ' div:nth-child(' + (i+1) + '){';
+				S.str += 'background-image:url(../img/ran_'+ rand(1,11) +'.jpg);}';
+				Q.sht.insertRule( S.str, ++L.len);
+			}
+		}
+
+		// 封装第四步与第五步
+		var tstion = function( len ){
+			for(var i = 0, z = 0 ; i < len; i++){
+				// 调用第三步
+				posBG( i );
+				S.str = sHead + ':nth-child('+ (i+1) +'){ ';
+				if ( i > len /2 ) {
+					S.str += 'z-index:'+ (--z) +';';
+				}
+				S.str += 'transition: 1s '+ 0.5*i / (len-1) +'s;}';
+				Q.sht.insertRule( S.str, ++L.len);
+			}
+		}
+
+		// 为了完成第六、七步
+		var addSpin = function( len ){
+			for(var i = 0 ; i < len; i++){
+				// 完成第七步
+				S.str = sHead + '.spin'+ i +'{';
+				S.str += 'transform : translateZ(-180px) rotateX('+ i * 90 +'deg);}';
+
+				// 用第五张图片样式瞬间定位第一张图片
+				if( i == 4){   
+					S.str = sHead + '.spin'+ i +'{';
+					S.str += 'transition : 0; ';
+					S.str += 'transform : translateZ(-180px) rotateX(0deg);}';
+				}
+				Q.sht.insertRule( S.str, ++L.len);	
+			}
+
+		}
+
+		// 选择中点
+		var selDrop = function (i){
+			i%=4;  
+			$('.drops').eq(i).addClass('sed').siblings().removeClass('sed');
+		}
+
+		// 主要方法
+		var spin = function ( i ){
+			selDrop(i); 
+			if( i == 4){
+				$(sHead).removeClass();
+			}else{
+				$(sHead).removeClass().addClass('spin' + i);
+			}
+		}
+
+		// 自动旋转
+		var autoSpin = function () {
+			L.ind %= 4;  
+			L.ind++; 
+			spin(L.ind);
+		}
+
+		// 核心方法
+		var init = function( n ){
+			Q.spin.initElement( Q.Li, n );
+			Q.sht.insertRule( S.str, L.len++);
+			tstion( n );
+			addSpin( 5 );	
+		}
+
+		init( L.n );
+		randImg();
+		Q.auto = setInterval(autoSpin, Q.spd);
+		// 完成第六步
+		$('.drops').click(function(event) {
+			if( Q.stp ){
+				return ;
+			}else{
+				clearInterval(Q.auto);
+				Q.stp = true;
+				L.ind = $(this).index();
+				spin(L.ind);
+				Q.interval = setTimeout(function(){
+					Q.stp = false;
+					clearInterval(Q.auto);
+					Q.auto = setInterval(autoSpin, Q.spd);
+				}, Q.iel);
+			}
+		});
+
+		// 放入停止
+		$('.banner').hover(function(){
+			clearInterval(Q.auto);
+		},function(){
+			clearInterval(Q.auto);
+			Q.auto = setInterval(autoSpin, Q.spd);
+		});
+
+	})();
+});
+
+ </script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>折叠</title>
+  <link rel="stylesheet" type="text/css" href="../public/css/style.css" />
+  <link rel="stylesheet" type="text/css" href="../public/css/fold.css" />
+  <script src="../public/js/jquery.js"></script>
+  <style>
+
+  </style>
+ </head>
+ <body>
+ 
+
+</style>
+<div class="space_con">
+点击折叠与展开
+</div>
+
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+
+
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+<div class="conwrap">
+  <div class="conwrap_title">
+    <h2>虞美人</h2>
+  </div>
+  <div class="conwrap_con fold">
+    <span>春花秋月何时了，</span>
+    <span>往事知多少？</span>
+    <span>小楼昨夜又东风，</span>
+    <span>故国不堪回首月明中。</span>
+    <span>雕楼玉砌应犹在，</span>
+    <span>只是朱颜改，</span>
+    <span>问君能有几多愁，</span>
+    <span>治似一江春水向东流。</span>
+  </div>
+  <div class="conwrap_foot">
+    <em>作者：李煜</em>
+    <span class="fold_show">折叠</div>
+  </div>
+</div>
+
+<style>
+
+</style>
+<div class="space_con">
+<span class="con_all_show">全部展开</span>
+<span class="con_all_fold">全部折叠</span>
+</div>
+
+<!-- 实现 -->
+<script>
+var S = { spd : 400 };
+$(document).onselectstart = function(){ return false};
+$('body').fadeIn(1300,'linear');
+var hei = $('.fold').first().height();
+$('.conwrap').each(function(i){
+  var that = $(this);
+  var fold = that.find('.fold');
+  that.find('.fold_show').click(function(){
+    if($(this).html() == '折叠'){
+      $(this).html('展开');
+      fold.animate({ height: '10px'} ,S.spd);
+    }else{
+      $(this).html('折叠');
+      fold.animate({ height: hei} ,S.spd);
+    }
+  });
+});
+//全部展开
+$('.con_all_show').click(function(){
+  $('.fold').animate({ height: hei}, S.spd);
+  $('.fold_show').html('折叠');
+});
+//全部折叠
+$('.con_all_fold').click(function(){
+  $('.fold').animate({ height: '10px'}, S.spd);
+  $('.fold_show').html('展开');
+});
+
+</script>
+
+
+</body>
+</html>
+
+
+

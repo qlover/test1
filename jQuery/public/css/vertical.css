@@ -1,0 +1,68 @@
+@charset 'utf-8';
+
+
+/* 垂直滚动 */
+.vertical {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	/*overflow: hidden;*/
+}
+
+/* 垂直滚动层 */
+.vertical .vertical-wrap {
+	position: relative;
+	overflow: hidden;
+}
+
+
+/* 垂直滚动层视图 */
+.vertical .vertical-wrap .vertical-view {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+}
+
+
+
+/* 滚动层 */
+.vertical .vertical-wrap .vertical-view .banner-view {
+	position: absolute;
+	width: 100%;
+	height: 600%;
+
+	left: 0;
+	top: 0;
+
+}
+
+/*图片层*/
+.vertical .vertical-wrap .vertical-view .banner-view .img-item {
+	position: relative;
+}
+
+/*每张图片*/
+.vertical .vertical-wrap .vertical-view .banner-view .img-item .items {
+	display: block;
+	position: relative;
+	width: 100%;
+	height: 100vh;
+}
+
+.vertical .items img {
+	display: block;
+	position: relative;
+	border: 0 none;
+	width: 100%;
+	height: 100%;
+}
+
+/* 固定层 */
+.vertical .vertical-wrap .vertical-view .fix-view {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.2);
+}
+
+

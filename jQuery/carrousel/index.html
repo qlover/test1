@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>旋转木马图片滚动-带键盘事件和滚轮事件</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../public/css/img.css">
+	<script src="../public/js/jquery.js"></script>
+	<script src="../public/js/global.js"></script>
+	<script src="../public/js/img.js"></script>
+</head>
+<body>
+
+<div id="carrousel">
+	<div id="wrap">
+		<div id="view">
+			<ul id="imgs">
+				<li><img src="" alt=""></li>
+				<li><img src="" alt=""></li>
+				<li><img src="" alt=""></li>
+				<li><img src="" alt=""></li>
+				<li><img src="" alt=""></li>
+			</ul>				
+		</div>
+		<div id="drop_menu">
+			<span class="drops"></span>
+			<span class="drops"></span>
+			<span class="drops sed"></span>
+			<span class="drops"></span>
+			<span class="drops"></span>
+		</div>
+		<div class="prev" title="上一张"><</div>
+		<div class="next" title="下一张">></div>
+	</div>
+</div>
+
+
+<!-- 实现 -->
+<script type="text/javascript">
+//  存放每张图片的大小
+// 但是下面的存放样式在 IE8- 中支持
+var json = [
+	{
+		width :300,
+		height : 150,
+		top : 20,
+		left : 150,
+		opacity : 0.2,
+		z : 1
+	},
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 0,
+		opacity : 0.68,
+		z : 2
+	},
+	{
+
+		width : 600,
+		height : 300,
+		top : 50,
+		left : 200,
+		opacity : 1,
+		z : 3
+	},
+	{
+		width : 400,
+		height : 250,
+		top : 80,
+		left : 600,
+		opacity : 0.68,
+		z : 2
+	},
+	{
+		width : 300,
+		height : 150,
+		top : 20,
+		left : 550,
+		opacity : 0.2,
+		z : 1
+	},
+
+];
+var G = {
+	lis : $('#imgs li'),
+	stp : false,		
+	mov : null,
+	iel : 3000,			
+	spd : 700,			
+	len : json.length ,	
+	nowInd : 2	,
+};
+	
+// 是否让图片看起来在旋转
+function isSpin(bool){
+	if( bool == undefined || bool == true){
+		return false;
+	}else{
+		for(var i=0; i < G.len; i++){
+			if( json[i].top == 20){
+				json[i].top = 85;
+				json[i].opacity = 0;
+			}
+		}
+	}
+}
+// isSpin(prompt("是否让图片看起来在旋转，填false，true或者0和1"));		//j是否要立体
+isSpin(Math.round(Math.random()));
+//  run animation
+function runAniamte(){
+	$.each(G.lis,function(i) {
+		G.lis.eq(i).css('zIndex',json[i].z).stop().animate(json[i],G.spd,function(){
+			clearInterval(G.mov);		//开启定时器之前要清除一次
+			G.stp = false;				//再次能够点击
+			G.mov = setInterval(function(){
+				spin(true);
+			},G.iel);
+		});
+	});
+}
+
+// 点击点时所执行的动画 
+function dropSpin(ind){
+	if( ind == G.nowInd){
+		return false;
+	}else if( ind < G.nowInd){
+		for(var i=ind; i < G.nowInd; i++ ){
+			json.push(json.shift());
+		}
+	}else{
+		for(var i=ind ;  i > G.nowInd; i-- ){
+			json.unshift(json.pop());
+		}
+	}
+	
+	// 用当前的 json 数组来找出当前是第几张图片最大
+	for(var i=0; i < json.length; i++){
+		if( json[i].width === 600){
+			G.nowInd = i;		//找到了就选中该点
+			break;
+		}
+	}
+
+	selDrop(G.nowInd);
+	runAniamte();
+
+}
+
+//select dorps
+function selDrop(ind){
+	$('.drops').eq(ind).addClass('sed').siblings().removeClass('sed');
+	G.nowInd = ind;
+}
+
+// spin banner
+function spin(bool){
+	if(bool != undefined){
+		if(bool){
+			json.push(json.shift());
+		}else{
+			json.unshift(json.pop());
+		}
+	}
+	for(var i=0; i < G.len; i++){
+		if( json[i].width == 600){
+			selDrop(i);		//找到了就选中该点
+			break;
+		}
+	}
+	runAniamte();
+}
+spin();		
+// click next
+$('.next').on('click',function(){
+	if( G.stp ){		
+		return false;
+	}else{	
+		clearInterval(G.mov);
+		G.stp = true;
+		spin(false);
+	}
+	
+});
+//  click prevent
+$('.prev').on('click',function(){
+	if( G.stp ){
+		return false;
+	}else{
+		clearInterval(G.mov);		//清除定时器
+		G.stp = true;
+		spin(true);
+	}
+});
+
+// click drops
+$('.drops').on('click',function() {
+	if( G.stp ){
+		return false;
+	}else{
+		clearInterval(G.mov);		//清除定时器
+		G.stp = true;
+		dropSpin($(this).index());
+	}
+});
+
+
+// click everyone image 
+$('#imgs li').on('click',function() {
+	if( G.stp ){
+		return false;
+	}else{
+		clearInterval(G.mov);		//清除定时器
+		G.stp = true;
+		dropSpin($(this).index());
+	}
+});
+// hover stop run animate
+/*
+$('#imgs li').hover(function() {
+	clearInterval(G.mov);
+}, function() {
+	clearInterval(G.mov);
+	G.mov = setInterval(function(){
+		spin(true);
+	},G.iel);
+});
+*/
+
+//  key borad
+$(window).keydown(function(evt) {
+	// 37 left
+	// 39 right
+	if( G.stp ) return ;
+	clearInterval(G.mov);
+	G.stp = true;
+	switch(evt.keyCode){
+		case 37: spin(false); break;
+		case 39: spin(true); break;
+		default: spin(true);   // 键盘任意一个键向左旋转滚动
+	}		
+});
+
+// scroll
+//  后面的 DOMMouseScroll 为了支持 FF 的滚轮事件
+$('#carrousel').on('mousewheel DOMMouseScroll',function(evt){
+	if( G.stp ) return ;
+	clearInterval(G.mov);
+	G.stp = true;
+	//  获取滚轮方向，因为 FF 与其它浏览器的滚动是相反的，所以要变成统一,向上滚是1，向下滚是-1
+	
+	// 用原生获取滚动方向
+	/*var delta = (evt.originalEvent.wheelDelta && (evt.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+                (evt.originalEvent.detail && (evt.originalEvent.detail > 0 ? -1 : 1));
+    */
+    // 用 JQ 获取方向
+    var delta = ((evt.originalEvent.wheelDelta || -evt.originalEvent.detail))>0?1:-1;
+    // 判断 
+	switch(delta){
+		case -1 : spin(true); break;
+		case 1 : spin(false); break;
+		default: return ;
+	}
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>视差滚动</title>
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body class="noselectstart">
+	
+	<!-- 视图 -->
+	<div class="cont noselectstart">
+		<!-- 滚动 -->
+        <ul class="slider">
+            <li data-target="1" class="slide slide1"><div class="darkbg darkbg1"></div></li>
+            <li data-target="2" class="slide slide2"><div class="darkbg darkbg2"></div></li>
+            <li data-target="3" class="slide slide3"><div class="darkbg darkbg3"></div></li>
+            <li data-target="4" class="slide slide4"><div class="darkbg darkbg4"></div></li>
+            <li data-target="5" class="slide slide5"><div class="darkbg darkbg5"></div></li>
+        </ul>
+		<!-- 点 -->
+		<ul class="drop">
+			<li data-target="1" class="drops active"></li>
+			<li data-target="2" class="drops"></li>
+			<li data-target="3" class="drops"></li>
+			<li data-target="4" class="drops"></li>
+			<li data-target="5" class="drops"></li>
+		</ul>
+		<!-- 切换 -->
+		<div class="pn prev"></div>
+		<div class="pn next"></div>
+
+	</div>
+    <script src="../Lib/jquery-3.1.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+    <script>
+ /**
+  * 增加其它的一些事件
+  *
+  * 1.点事件以及滚动时选中点
+  * 2.滚轮事件
+  * 
+  */
+    var $slider = $('.slider');
+    var $dir = false;  // 滚动方向
+    var current = 1;  //  !* 得到全局的控制指针
+    var winw = $(window).width() * 0.3 ;
+    var diff = 0;
+
+    // 6.1 创建事件监听变量
+    var stop = false;
+
+    // 6.2 监听释放函数
+    function timeout(){
+        stop = false;
+    }
+
+    // 3.!*核心函数
+    // dir 为 0 向左拖动
+    // dir 为 1 当前状态
+    // dir 为 2 向右拖动
+    function pagination(dir) {
+        var doing = current - dir;
+        stop = true;
+        $slider.addClass('animation').css('transform', 'translate3d(-'+ doing * 100 +'%, 0, 0)')
+            .find('.darkbg').css('transform', 'translate3d('+ doing * 50 +'%, 0, 0)');
+        console.log('pag:'+current);  // 打印当前指针
+    }
+
+    /* 4.封装 pagination() 方法分别执行向左还是向右图片层的滚动 */
+    // 向左滚动
+    function toLeft(){
+        $dir = false;
+        if( current >= 5) return ;
+        pagination(0);
+        setTimeout(timeout, 1000);
+        current++;
+        //  传入参数是指针,面内部是靠索引
+        // 选中点,在这个地方选中点,有原因
+        bullets(current-1);
+    }
+
+    // 向右滚动
+    function toRight(){
+        $dir = false;
+        if( current <= 1) return ;
+        pagination(2);
+        setTimeout(timeout, 1000);
+        current--;
+        // 选中点
+        bullets(current-1);
+    }
+
+    // 保持当前状态
+    function toDefault(){
+        pagination(1);
+        setTimeout(timeout, 1000); // 到此，拖动的效果完成了
+    }
+
+    // 2.2 选中点
+    /* 该方法传入的是索引值,注意 */
+    function bullets(dir){
+        $('.drops').eq(dir).addClass('active')
+            .siblings().removeClass('active');
+        console.log('dir:'+dir);
+    }
+
+    $(document).on('mousedown', '.slide', function(event) {
+        if( stop ) return ;
+        var startX = event.pageX;
+        var target = $(this).attr('data-target'); // string
+
+        $slider.removeClass('animation');  // !*
+        $(document).on('mousemove', function(event) {
+            diff = startX - (event.pageX);
+            if( target == 1 && diff < 0 ){
+                console.info('不要快速向右拖动');
+                return ;
+            }
+            if( target == 5 && diff >0 ){
+                console.info('不要快速向左拖动');
+                return ;  
+            }
+
+
+
+            $slider.css('transform','translate3d(-' + ((current - 1) * 100 + diff / 30) + '%, 0, 0)')
+                .find('.darkbg').css('transform','translate3d(' + ((current - 1) * 50 + diff / 60) + '%, 0, 0');
+        });
+
+    });
+    // 有滚轮事件就不能将该事件放入点击事件里面了，要写出来
+    // 否则会冲突滚轮事件
+    // *!* 出过错的代码，找了两个小时
+    $(document).on('mouseup', function(event) {
+        $(document).off('mousemove');
+        if( stop ) return ;
+
+        // 执行拖动后的图片层滚动
+        // pagination(0);
+
+        if (diff >= winw ) {
+            toLeft();
+        } else if( diff <= -winw) {
+            toRight();
+        } else {
+            toDefault();
+        }
+    });
+
+
+    // 1. 增加点事件
+    //  需要注意的是为不是活动状态的点增加事件
+    //  因为如果为活动状态的点也增加事件的放放，点击后会有其它的事件流，这也有关于 current 控制的问题
+    $(document).on('click', '.drops:not(.active)', function(event) {
+        // 该事件开始不需要函数控制函数节流否则会出点不动的状态
+        // 若非要设置节流，则需要把三次的 释放监听器 置于 pagination() 最后
+
+        // 获取当前的点指针
+        //      因为索引是从0开始不好计算，current 也是指针不是索引，所以这里也用
+        var target = $(this).attr('data-target'); // string
+        // console.info(typeof target, typeof current); // string number
+
+        // 选中点,因为是固定值，直接传入 target 的值
+        bullets(target-1);
+
+        // 因为，别忘了全局控制器是以 0 1 2 三个状态这个算法来做控制
+        // 所以直接把 target 值给 curent 
+        current = target;
+
+        pagination(1);
+    });
+
+    // 2. 滚轮事件，后面 DOMMouseScroll 是为了支持 FF
+    $(document).on('mousewheel DOMMouseScroll', function(event) {
+        /*
+         * 正数向上
+         * 负数向下
+         */
+        // 滚轮事件可以考虑事件节流
+        if (stop) {return ;}
+        var delta =  // 获取滚轮方向
+            event.originalEvent.wheelDelta ||  // 除FF(120 和 -120 )
+            event.originalEvent.detail; // FF(3 和 -3)
+        if( delta > 0 ) toRight();
+        if( delta < 0 ) toLeft();
+
+        
+    });
+
+    </script>
+</body>
+</html>
