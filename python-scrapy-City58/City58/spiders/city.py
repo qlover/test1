@@ -14,7 +14,8 @@ class CitySpider(scrapy.Spider):
 	# 防止 ban 方法一
 	download_delay = 3
 	# 起始职业类型
-	_start_num = 0
+	# 28 表示 IT 类
+	_start_num = 28
 
 
 	# 正则匹配钩子
