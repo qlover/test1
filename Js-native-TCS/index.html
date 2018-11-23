@@ -1,0 +1,546 @@
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>JS贪吃蛇</title> 
+<style type="text/css"> 
+*{ margin:0; padding:0;}
+table{
+	margin:20px auto;
+	border-spacing:0;
+	border-collapse:0;
+	border:none;
+	background:#eee;
+	border:1px solid #000;
+}
+#pannel table td {  
+width: 15px; 
+height: 15px; 
+font-size: 0; 
+line-height: 0; 
+overflow: hidden; 
+border-radius:10px;
+
+} 
+#pannel table .snake { 
+background-color: #00ff00; 
+} 
+
+
+#selOptions{
+	width:400px;
+	height:300px;
+	background:#eee;
+	position:fixed;
+	top:25%;
+	left:25%;
+	
+}
+#selOptions #main{
+	width:100%;
+	height:100%;
+	background:#fff;
+	position:relative;	
+}
+
+#main .top{
+	width:100%;
+	height:50px;
+	background:#999;
+	
+	}
+	
+#main .top .title{
+	height:50px;
+	position:relative;	
+	cursor:move;
+}
+#main .top h2{
+	line-height:50px;
+	padding-left:20px;
+	padding-right:20px;	
+}
+#main .top .close{
+	position:absolute;
+	right:0.5em;
+	top:0.2em;
+	font-size:2em;
+	cursor:pointer;
+	color:rgba(0,0,0,0.3);
+}
+#main .top .close:hover{
+	color:rgba(0,0,0,0.9);	
+}
+#main .button{
+	width:100%;
+	height:250px;
+	background:#666;
+}
+
+#main .button .content{
+	padding:10px;
+	padding-top:20px;
+	background:#eee;
+	position:relative;	
+}
+#main .button .content .items{
+	margin-bottom:10px;	
+	font-size:14px;
+}
+#main .button .content form input[type=text]{
+	padding:3px;
+	font-size:1em;	
+}
+#main .button .content form input[type=button]{
+	padding:5px 10px;
+	text-align:center;
+	font-size:1em;		
+}
+</style> 
+<script type="text/javascript"> 
+
+
+
+
+</script> 
+</head> 
+<body>
+
+<div id="pannel">
+
+</div>
+
+<div id="selOptions">
+	<div id="main">
+       <div class="top">
+            <div class="title">
+            	<h2>游戏中的参数选择</h2>
+                <span class="close">×</span>
+            </div>
+        </div>
+        
+        <div class="button">
+            <div class="content">
+                <form name="selForm">
+                	<div class="items">游戏速度
+                    	<input type="text" id="speed" placeholder="请输入100~5000之内的整数"  value="100"/>
+                    </div>
+                    <div class="items">游戏背景大小
+   						<select id="size">
+                        	<option value="20">20x20</option>
+                        	<option value="30">30x30</option>
+                            <option value="40">40x40</option>
+                            <option value="">dom 大小</option>                            
+                        </select>                 
+                    </div>
+                     <div class="items">
+                     	<input type="button" id="begin" value="开始" />
+                     </div>   
+                </form>                
+            </div>
+        </div>
+	</div>    
+</div>
+
+
+<script>
+//获取dom 大小对象
+var DOM = function(){
+	this.width = document.documentElement.clientWidth;
+	this.height = document.documentElement.clientHeight;
+}
+var MyDom = new DOM();
+
+
+//24.获取键盘控制
+var Direction = new function () { 
+	this.UP = 38; 
+	this.RIGHT = 39; 
+	this.DOWN = 40; 
+	this.LEFT = 37;  
+}; 
+
+//5.参数获取对象
+var Common = function(){
+	this.width = 20;		/*水平方向方格数*/ 
+	this.height = 20;		/*垂直方向方格数*/ 
+	this.speed = 1000;		/*速度 值越小越快*/ 
+	this.autoMove = null;  //用一个变量来存蛇自动移动的interval
+}
+
+
+//1.主函数
+var Main = new function(){
+	//3.new 个全局控制对象 
+	var control = new Control();
+	window.onload = function(){
+		//4.点击开始按钮
+		document.getElementById('begin').onclick = function(){
+			//获取调整的速度
+			var speed = document.getElementById('speed').value;
+			//获取调整的大小
+			var size = document.getElementById('size').value;
+			
+			//6.得到速度与大小
+			Common.width = size;
+			Common.height = size;
+			Common.speed = speed;
+			//11.添加所有单元格
+			control.Init('pannel');
+			//12.关掉游戏参数窗口
+			closeselOptions();
+			//22.窗口关闭后开始游戏
+			control.Start(); 
+		};
+			
+	}
+		
+};
+
+
+
+
+
+//2.控制游戏参数
+//这里写成 var Control = function(){} 引用不上
+function Control(){
+	//17.在为 游戏自动开始函数 添加个 Snake 对象
+	this.snake = new Snake();
+	//37.这里也是为了在 游戏自动开始函数 添加个 Food 对象
+	this.food = new Food(); 
+	//7.添加整个表格的函数
+	this.Init = function(pid){
+		//8.为页面添加单元格
+		var html = [];	
+		html.push('<table>');
+		for(var y = 0; y < Common.height; y++ ){
+			html.push('<tr>');
+			for(var x = 0; x < Common.width; x++){
+				html.push('<td id="box_' + x + "_" + y + '"> </td>'); 
+			}
+			html.push('</tr>');
+		}
+		html.push('</table>');
+		//9.获取到 pannel 元素
+		this.pannel = document.getElementById(pid);	
+		//10.为 pannel 元素添加所有准备好的单元格
+		this.pannel.innerHTML = html.join('');
+	};
+	
+	//13.添加游戏开始函数	
+	/*开始游戏 - 监听键盘、创建食物、刷新界面线程*/ 
+	this.Start = function () { 	
+		//14.将 Control 作用域存下来
+		//为了就是让这个作用域变成上级作用域，因为这样可以引用到 Control 对象下的 snake 对象
+		var me = this;
+		
+		
+		//48.让用户按上下左右键控制蛇的方向
+		this.MoveSnake = function(evt){
+				var e = window.event || evt;
+				//为控制器调用刚才的控制函数
+				//其中传入的值则是用户按的上下左右的键码值
+				me.snake.setDir(e.keyCode);
+		};
+		
+		//49.为用户添加键盘事件，来达到控制蛇
+		//W3C 的事件
+		document.addEventListener("keydown", this.MoveSnake, false); 
+		
+		
+		//38.调用随机创建食物
+		//如果没有这一步，第39步将无法实现
+		this.food.Create();
+		
+		//15.为 autoMove 添加 定时器
+		//游戏自动开始函数设置
+		Common.autoMove = setInterval(function (){
+			//39.调用吃食物
+			me.snake.Eat(me.food);
+			//调用蛇的移动函数
+			//22.调用蛇移动函数
+			me.snake.Move();
+			
+		},Common.speed);
+	};
+};
+
+
+//16.定义蛇
+function Snake(){
+	//46.
+	this.isDone = false;
+	//new 一个定位对象
+	//应该是把每个单元格都放入一个数组然后好访问，因为直接访问下标就可以访问到每个单元格了
+	//20.在该作用域下new 个 数组用来存放 Position 对象值
+	this.pos = new Array(new Position());
+	
+		
+	//25.在该作用域下添加个键盘控制对象
+	//并且给其默认移动向右移动
+	this.dir = Direction.RIGHT; 
+	//18.为蛇函数添加移动函数
+	//蛇的移动
+	this.Move = function(){
+		
+		
+		
+		
+		//21.蛇头的初始位置颜色第二次初始化
+		//尾巴后的颜色，用白色清掉
+		document.getElementById("box_" + this.pos[0].X + "_" + this.pos[0].Y).style.background = ""; 
+		
+		//53.第52步之后会将蛇所吃到的东西把自己变长
+		//所有 向前移动一步 
+		for (var i = 0; i < this.pos.length - 1; i++) { 
+			this.pos[i].X = this.pos[i + 1].X; 
+			this.pos[i].Y = this.pos[i + 1].Y; 
+		} 
+
+		//*************************
+		/*
+			在这要说个事，在这个坐标中，横起走的话就是 X 变化，竖起走就是 Y 变化
+			也就是说，如果用户按的是左，则 X--
+			如果用户按按的是右，则X++
+			下则是 Y++
+			上则是 Y--
+		*/
+		//让蛇第一次自动移动 向判断的方向
+		//40.重新设置头的位置 
+		var head = this.pos[this.pos.length - 1]; 
+		
+		//判断方向
+		switch (this.dir) { 
+			//如向上走
+			case Direction.UP: 
+				head.Y--; 
+				break; 
+			//向右走
+			case Direction.RIGHT: 
+				head.X++; 
+				break; 
+			case Direction.DOWN: 
+				head.Y++; 
+				break; 
+			case Direction.LEFT: 
+				head.X--; 
+				break; 
+		} 
+		this.pos[this.pos.length - 1] = head; 
+
+		//41.遍历蛇，并绘制蛇
+		for(var i = 0 ;i < this.pos.length; i++){
+			//42.用个变量来表示是否退出
+			var isExits = false;
+			
+			//当蛇吃到了自己，跳出这个循环
+			
+			for (var j = i + 1; j < this.pos.length; j++){
+				if(this.pos[j].X == this.pos[i].X && this.pos[j].Y == this.pos[i].Y) { 
+					isExits = true; 
+					break; 
+				}
+			}
+			//因为已经 退出已经为 真了，所以直接调用结束函数
+			if (isExits) { 
+				this.Over();/*咬自己*/ break;
+			} 
+			
+			
+			//43.蛇的身体
+			var obj = document.getElementById("box_" + this.pos[i].X + "_" + this.pos[i].Y);
+			//判断蛇的身体是否存在,存在就给其上色
+			if (obj){ 
+				obj.style.background = "#f00"; 	//color
+			}else{
+				this.Over();/*移出边界*/
+				break; 
+			}			 
+		}
+		//47.
+		this.isDone = true;
+	};
+	
+	//44.添加个结束函数清掉计时器
+	this.Over = function () {
+		//结束的时候一定记得
+		clearInterval(Common.autoMove); 
+		alert("游戏结束！"); 
+		
+	} 
+	
+	
+	//23.添加吃食物函数
+	//传个参数，做作为食物的判断
+	this.Eat = function (food){
+		//26.获取当前蛇的头
+		var head = this.pos[this.pos.length - 1];
+		//27.给一个布尔值
+		var isEat = false; 
+		
+		//36.因为有了随机创建的食物就可以来判断蛇的移动位置了
+		switch(this.dir){
+			case Direction.UP: 
+				if (head.X == food.pos.X && head.Y == food.pos.Y + 1) isEat = true; 
+				break; 
+			case Direction.RIGHT: 
+				if (head.Y == food.pos.Y && head.X == food.pos.X - 1) isEat = true; 
+				break; 
+			case Direction.DOWN: 
+				if (head.X == food.pos.X && head.Y == food.pos.Y - 1) isEat = true; 
+				break; 
+			case Direction.LEFT: 
+				if (head.Y == food.pos.Y && head.X == food.pos.X + 1) isEat = true; 
+				break;	
+		}
+		
+		//50.在当蛇头与食物为true 的时候，也就是 isEat 为真，则在创建一个随机食物
+		if (isEat) { 
+		
+			//52.
+			this.pos[this.pos.length] = new Position(food.pos.X, food.pos.Y); 
+			
+			//51.二次添加随机食物
+			//此时的效果则是，蛇只有头，即使吃了食物也不会变长，在吃了食物过后会随机在创建一个食物
+			food.Create(this.pos); 
+		}
+	};
+	
+	
+	//45.用户控制移动方向
+	//记得传入一个方向参数，来表示 用户按了哪个键
+	this.setDir = function (direction){
+		//做判断
+		switch(direction){
+			case Direction.UP: 
+				if (this.isDone && this.dir != Direction.DOWN) { 
+					this.dir = direction; this.isDone = false; 
+				} 
+				break; 
+			case Direction.RIGHT: 
+				if (this.isDone && this.dir != Direction.LEFT) { 
+					this.dir = direction; this.isDone = false; 
+				} 
+				break; 
+			case Direction.DOWN: 
+				if (this.isDone && this.dir != Direction.UP) { 
+					this.dir = direction; this.isDone = false; 
+				} 
+				break; 
+			case Direction.LEFT: 
+				if (this.isDone && this.dir != Direction.RIGHT) { 
+					this.dir = direction; this.isDone = false; 
+				} 
+				break; 			
+		}			
+	};
+		
+}
+
+
+//显示与隐藏参数窗口
+function closeselOptions(){
+	document.getElementById('selOptions').style.display = 'none';	
+}
+function openselOptions(){
+	document.getElementById('selOptions').style.display = 'block';	
+}
+
+//关闭掉参数窗口按钮
+document.getElementsByClassName('close')[0].onclick = closeselOptions;
+
+//28.创建一个食物对象
+function Food(){
+	//29.new 个 Position 对象，来获取创建食物的单元格
+	this.pos = new Position(); 
+	//30.随机创建食物函数
+	//也记得传值
+	this.Create = function (pos){
+		//31.第一次蛇头颜色初始化
+		document.getElementById("box_" + this.pos.X + "_" + this.pos.Y).style.background = "#f00";
+		//32.初始化三个值
+		//其中，x y分别是食物随机的坐标
+		var x = 0, y = 0, isCover = false; 
+			
+		//33.实现食物随机创建
+		//还不清楚是做什么的
+		
+		
+		do { 
+			x = parseInt(Math.random() * (Common.width - 1)); 
+			y = parseInt(Math.random() * (Common.height - 1)); 
+			isCover = false; 
+			if (pos instanceof Array) { 
+				for (var i = 0; i < pos.length; i++) { 
+					if (x == pos[i].X && y == pos[i].Y) { 
+						isCover = true; 
+						break; 
+					} 
+				} 
+			} 
+		} while (isCover); 
+		
+		//34.为 pos 添加刚才获取到的食物随机坐标
+		this.pos = new Position(x, y);
+		//35.给随机食物上色
+		document.getElementById("box_" + x + "_" + y).style.background="#0e0"; 
+
+			
+			
+	};
+}
+
+//这个对象是最难的地方，因为是坐标获取
+//19.定义定位对象
+function Position(x,y){
+	this.X = 0; 	//将定位中的X坐标初始为0
+	this.Y = 0; 	//将定位中的Y坐标初始为0
+	//如果传入的参数只有一个就只让X坐标x
+	if (arguments.length >= 1){ 
+		this.X = x; 
+	}
+	if (arguments.length >= 2){ 
+		this.Y = y; 
+	}
+}
+
+var sel = document.getElementById('selOptions');
+var title = sel.getElementsByClassName('title')[0];
+
+title.onmousedown = function(evt){
+	var e = window.event || evt;
+	//获取鼠标点击的坐标
+	var leftPosition = e.clientX;
+	var topPosition = e.clientY;
+	//获取移动目标的坐标
+	var leftCoordinate = sel.offsetLeft;		
+	var topCoordinate = sel.offsetTop;	
+	//获取鼠标到移动目标内部的距离 
+	var leftDistance = leftPosition - leftCoordinate;
+	var topDistance = topPosition - topCoordinate;
+	document.onmousemove = function(evt){
+		var e = window.event || evt;	
+		//获取鼠标当前移动的坐标
+		var nowLeftPosition = e.clientX; 
+		var nowTopPosition = e.clientY;
+		//获取当前鼠标坐标减去鼠标到移动目标内部的距离 
+		var Left = nowLeftPosition - leftDistance;
+		var Top = nowTopPosition - topDistance;
+		sel.style.left = Left +'px';
+		sel.style.top = Top + 'px';
+	};
+	document.onmouseup = function(){//当鼠标点上时
+		this.onmouseup = null;
+		this.onmousemove = null;
+		
+	};
+	return false;
+};	
+
+
+
+
+
+</script>
+</body> 
+</html> 
