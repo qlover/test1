@@ -28,6 +28,8 @@ class RotateUserAgentMiddleware(UserAgentMiddleware):
 			#记录
 			log.msg('Current UserAgent: '+ua, level=log.INFO)
 			request.headers.setdefault('User-Agent', ua)
+		else:
+			request.headers.setdefault('User-Agent', self.user_agent_list[0])
  
 	#the default user_agent_list composes chrome,I E,firefox,Mozilla,opera,netscape
 	#for more user agent strings,you can find it in http://www.useragentstring.com/pages/useragentstring.php

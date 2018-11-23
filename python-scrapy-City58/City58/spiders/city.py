@@ -15,7 +15,7 @@ class CitySpider(scrapy.Spider):
 	download_delay = 3
 	# 起始职业类型
 	# 28 表示 IT 类
-	_start_num = 28
+	_start_num = 35
 
 
 	# 正则匹配钩子

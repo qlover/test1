@@ -1,6 +1,6 @@
 import os
 
-if not os.path..isfile('proxies.txt'):
+if not os.path.isfile('proxies.txt'):
 	os.system("py proxies.py")
 
 if not os.path.isfile('type.json'):

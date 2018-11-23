@@ -1,5 +1,7 @@
 import random
 import scrapy
+from scrapy import log
+
 
 # logger = logging.getLogger()
 

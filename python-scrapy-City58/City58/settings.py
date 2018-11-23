@@ -62,7 +62,7 @@ DOWNLOADER_MIDDLEWARES = {
    # 启用模拟浏览器登录
    'City58.rotate_useragent.RotateUserAgentMiddleware': 543,
    # 启用 IP 代理
-   # 'City58.proxy_middleware.ProxyMiddleWare': 500
+   # 'City58.proxy_middleware.ProxyMiddleWare': 566
 }
 
 # Enable or disable extensions
