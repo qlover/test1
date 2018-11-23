@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> Count Down</title>
+</head>
+<body style="height: 100%;">
+	
+<canvas id="canvas" style="width:100%;height: 100%;"></canvas>
+
+<script src="digit.js"></script>
+<script>
+var WIDTH = 1024;
+var HEIGHT = 500;
+var R = 8; // 半径
+var TOP = 60;
+var LEFT = 30;
+
+// 一个小时后
+// var endTime = new Date();
+// endTime.setTime(endTime.getTime() + 3600 * 1000);
+
+var curTimeSeconds = 0;
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+
+var balls = [
+	// {x:512, y:100, r:20, g:2, vx:-4, vy:0, color:"#005588"}
+];
+var colors = ["#44B3E5","0099CC",'#AA66CC','#9933CC','#99CC00','#6699OO','#FFBB33','#FF44444','#CC0000'];
+
+// 自适应宽度高度
+WIDTH = document.body.clientWidth;
+HEIGHT = document.body.clientHeight;
+LEFT = Math.round(WIDTH / 10);
+R = Math.round( WIDTH * 4 / 5 / 108) - 1;
+TOP = Math.round(HEIGHT / 5);
+
+
+// 开始动画
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
+curTimeSeconds = getCurTimeSeconds();
+setInterval(function(){
+	render( context );
+	update();
+}, 50);
+
+
+function update () {
+	var nextTimeSeconds = getCurTimeSeconds();
+
+	var nextHours = parseInt(nextTimeSeconds / 3600);
+	var nextMinutes = parseInt( (nextTimeSeconds - nextHours * 3600) / 60);
+	var nextSeconds = parseInt(nextTimeSeconds%60); 
+
+	var curHours = parseInt(curTimeSeconds / 3600);
+	var curMinutes = parseInt( (curTimeSeconds - curHours * 3600) / 60);
+	var curSeconds = parseInt(curTimeSeconds%60); 
+
+	if ( nextSeconds != curSeconds ) {
+
+		// 判断改变了那些数字
+		// 时
+		if ( parseInt(curHours/10) != parseInt(nextHours/10) ) {
+			addBalls( LEFT + 0, TOP, parseInt(curHours/10));
+		}
+		if ( parseInt(curHours%10) != parseInt(nextHours%10) ) {
+			addBalls( LEFT + 15*(R+1), TOP, parseInt(curHours/10));
+		}
+		// 分
+		if ( parseInt(curMinutes/10) != parseInt(nextMinutes/10) ) {
+			addBalls( LEFT + 39*(R+1), TOP, parseInt(curMinutes/10));
+		}
+		if ( parseInt(curMinutes%10) != parseInt(nextMinutes%10) ) {
+			addBalls( LEFT + 54*(R+1), TOP, parseInt(curMinutes%10));
+		}
+		// 秒
+		if ( parseInt(curSeconds/10) != parseInt(nextSeconds/10) ) {
+			addBalls( LEFT + 78*(R+1), TOP, parseInt(curSeconds/10));
+		}
+		if ( parseInt(curSeconds%10) != parseInt(nextSeconds%10) ) {
+			addBalls( LEFT + 93*(R+1), TOP, parseInt(curSeconds%10));
+		}
+		// 重置当前时间
+		curTimeSeconds = nextTimeSeconds;
+	}
+
+	// 更新存在的球
+	updateBalls();
+	// console.log(balls.length)
+}
+
+function updateBalls () {
+	for( var i = 0; i < balls.length; i++){
+		balls[i].x += balls[i].vx;
+		balls[i].y += balls[i].vy;
+		balls[i].vy += balls[i].g;
+
+		// 碰撞检测
+		if ( balls[i].y >= HEIGHT - R) {
+			balls[i].y = HEIGHT - R;
+			balls[i].vy = - balls[i].vy * 0.75;
+		}
+
+	}
+
+	// 优化
+	var cnt = 0;
+	for(var i = 0; i < balls.length; i++){
+		if (balls[i].x + R > 0 && balls[i].x - R < WIDTH) {
+			balls[cnt++] = balls[i];
+		}
+	}
+	while ( balls.length > Math.min(250, cnt)) {
+		balls.pop();
+	}
+}
+
+function addBalls (x, y, num) {
+	// console.log(x, y, num)
+	for(var i = 0; i < digit[num].length; i++ ){
+		for(var j = 0; j < digit[num][i].length; j++){
+			if ( digit[num][i][j] == 1) {
+				var aBall = {
+					x : x + j * 2 * (R+1) + (R+1),
+					y : y + i * 2 * (R+1) + (R+1),
+					g :1.5+Math.random(),
+					vx: Math.pow(-1, Math.ceil(Math.random()*1000)) *4,
+					vy: -5,
+					color: colors[ Math.floor(Math.random()*colors.length)],
+				};
+				balls.push(aBall);
+			}
+		}
+	}
+}
+
+function render( cxt ){
+
+	// 防止需要多次的刷新画布
+	cxt.clearRect(0, 0, WIDTH, HEIGHT);
+
+	var hours = parseInt(curTimeSeconds / 3600);
+	var minutes = parseInt( (curTimeSeconds - hours * 3600) / 60);
+	var seconds = parseInt(curTimeSeconds%60); 
+
+	// 分别绘制时分秒钟
+	renderDigit( LEFT, TOP, parseInt(hours/10), cxt );
+	renderDigit( LEFT + 15 * (R+1), TOP, parseInt(hours%10), cxt );
+	renderDigit( LEFT + 30 * (R+1), TOP, 10, cxt );
+	renderDigit( LEFT + 39 * (R+1), TOP, parseInt(minutes/10), cxt );
+	renderDigit( LEFT + 54 * (R+1), TOP, parseInt(minutes%10), cxt );
+	renderDigit( LEFT + 69 * (R+1), TOP, 10, cxt );
+	renderDigit( LEFT + 78 * (R+1), TOP, parseInt(seconds/10), cxt );
+	renderDigit( LEFT + 93 * (R+1), TOP, parseInt(seconds%10), cxt );
+
+
+	// 绘制小球
+	for( var i = 0; i < balls.length; i++){
+		cxt.fillStyle = balls[i].color;
+		cxt.beginPath();
+		cxt.arc(balls[i].x, balls[i].y, R, 0, 2 * Math.PI, true);
+		cxt.closePath();
+
+		cxt.fill();
+	}
+}
+function getCurTimeSeconds () {
+	var curTime = new Date();
+	var ret = curTime.getHours() * 3600 + curTime.getMinutes() * 60 + curTime.getSeconds()
+	return ret;
+}
+function renderDigit( x, y, num, cxt) {
+	cxt.fillStyle = "rgb(0,102,153)";
+	for(var i = 0; i < digit[num].length; i++ ){
+		for(var j = 0; j < digit[num][i].length; j++){
+			if ( digit[num][i][j] == 1) {
+				cxt.beginPath();
+				cxt.arc(
+					x + j * 2 * (R+1) + (R+1),
+					y + i * 2 * (R+1) + (R+1),
+					R,
+					0,
+					2*Math.PI
+				);
+				cxt.closePath();
+				cxt.fill();
+			}
+		}
+	}
+}
+</script>	
+
+
+</body>
+</html>

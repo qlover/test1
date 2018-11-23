@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+    <div style="margin: 20px auto; width:1700px;">
+        <canvas id="canvasa" width="800" height="560"
+            style="display:block;float:left;border:1px solid #aaa;">
+        </canvas>
+
+        <canvas id="canvasb" width="800" height="560"
+            style="display:block;float:right;border:1px solid #aaa;">
+        </canvas>
+    </div>
+    <div style="clear: both"></div>
+
+    <div style="text-align: center; margin-top:50px;font-size:20px;">
+        <a href="javascript:greyEffect()" >Grey Effect</a>
+        <a href="javascript:blackEffect()" >Black and White Effect</a>
+        <a href="javascript:reverseEffect()" >Reverse Effect</a>
+        <a href="javascript:blurEffect()" >Blur Effect</a>
+        <a href="javascript:mosaicEffect()" >Mosaic Effect</a>
+    </div>
+    <script>
+        var canvasa = document.getElementById("canvasa")
+        var contexta = canvasa.getContext("2d")
+
+        var canvasb = document.getElementById("canvasb")
+        var contextb = canvasb.getContext("2d")
+
+        var image = new Image()
+
+        /*
+        第 i 个像素
+           r = pixelData[i*4+0]
+           g = pixelData[i*4+1]
+           b = pixelData[i*4+2]
+           a = pixelData[i*4+3]
+        第 x 行第 y 列像素
+         i = x * whith + y
+            r = pixelData[i*4+0]
+            g = pixelData[i*4+1]
+            b = pixelData[i*4+2]
+            a = pixelData[i*4+3]
+         */
+
+        window.onload = function(){
+
+            image.src = "index.jpg";
+            image.onload = function(){
+
+                contexta.drawImage( image , 0 , 0 , canvasa.width , canvasa.height )
+            }
+        }
+
+        // 灰度滤镜
+        // r*0.3+g*0.59+b*0.11 转灰的公式
+        function greyEffect(){
+
+            var imageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height );
+            var pixelData = imageData.data;
+            for( var i = 0 ; i < canvasb.width * canvasb.height ; i ++ ){
+
+                var r = pixelData[i*4+0];
+                var g = pixelData[i*4+1];
+                var b = pixelData[i*4+2];
+
+                var grey = r*0.3+g*0.59+b*0.11;
+
+                pixelData[i*4+0] = grey;
+                pixelData[i*4+1] = grey;
+                pixelData[i*4+2] = grey;
+            }
+
+            contextb.putImageData( imageData , 0 , 0 , 0 , 0 , canvasb.width , canvasb.height );
+            context.putImageData();
+        }
+
+        // 黑白滤镜
+        // 图片上没有灰度值
+        function blackEffect(){
+
+            var imageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height );
+            var pixelData = imageData.data;
+            for( var i = 0 ; i < canvasb.width * canvasb.height ; i ++ ){
+
+                var r = pixelData[i*4+0];
+                var g = pixelData[i*4+1];
+                var b = pixelData[i*4+2];
+
+                var grey = r*0.3+g*0.59+b*0.11;
+
+                var pv = grey > 125 ? 255 : 0;
+
+                pixelData[i*4+0] = pv;
+                pixelData[i*4+1] = pv;
+                pixelData[i*4+2] = pv;
+            };
+
+            contextb.putImageData( imageData , 0 , 0 , 0 , 0 , canvasa.width , canvasa.height );
+        }
+
+        // 返回滤镜
+        //  255 - r
+        //  255 - g
+        //  255 - b
+        function reverseEffect(){
+
+            var imageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height );
+            var pixelData = imageData.data;
+            for( var i = 0 ; i < canvasb.width * canvasb.height ; i ++ ){
+
+                var r = pixelData[i*4+0];
+                var g = pixelData[i*4+1];
+                var b = pixelData[i*4+2];
+
+                pixelData[i*4+0] = 255 - r;
+                pixelData[i*4+1] = 255 - g;
+                pixelData[i*4+2] = 255 - b;
+            }
+
+            contextb.putImageData( imageData , 0 , 0 , 0 , 0 , canvasb.width , canvasb.height )
+        }
+
+
+        // 模糊滤镜
+        // 一个像素点需要参考周围像素点
+        // 参考当前点周边8个点的值 加自己的平均值，这个值就是模糊的值
+        function blurEffect(){
+
+            var tmpImageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height );
+            var tmpPixelData = tmpImageData.data;
+
+            var imageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height );
+            var pixelData = imageData.data;
+
+            // 遍历周围的范围
+            var blurR = 2;
+            // 平均值
+            var totalnum = (2*blurR + 1)*(2*blurR + 1);
+
+            for( var i = blurR ; i < canvasb.height - blurR ; i ++ );
+                for( var j = blurR ; j < canvasb.width - blurR ; j ++ ){
+
+                    var totalr = 0 , totalg = 0 , totalb = 0;
+                    // 遍历当前点的周围点
+                    for( var dx = -blurR ; dx <= blurR ; dx ++ )
+                        for( var dy = -blurR ; dy <= blurR ; dy ++ ){
+
+                            var x = i + dx;
+                            var y = j + dy;
+
+                            var p = x*canvasb.width + y;
+                            // 计算出当前点周围的所有点 r g b 的和
+                            totalr += tmpPixelData[p*4+0];
+                            totalg += tmpPixelData[p*4+1];
+                            totalb += tmpPixelData[p*4+2];
+                        }
+
+                    var p = i*canvasb.width + j;
+                    pixelData[p*4+0] = totalr / totalnum;
+                    pixelData[p*4+1] = totalg / totalnum;
+                    pixelData[p*4+2] = totalb / totalnum;
+                }
+
+            contextb.putImageData( imageData , 0 , 0 , 0 , 0 , canvasb.width , canvasb.height );
+        };
+
+        // 马赛克
+        // 每一个点都变成当前点周围点的平均值
+        function mosaicEffect(){
+
+            var tmpImageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height )
+            var tmpPixelData = tmpImageData.data;
+
+            var imageData = contexta.getImageData( 0 , 0 , canvasa.width , canvasa.height )
+            var pixelData = imageData.data;
+
+            var size = 16
+            var totalnum = size*size
+            for( var i = 0 ; i < canvasb.height ; i += size )
+                for( var j = 0 ; j < canvasb.width ; j += size ){
+
+                    var totalr = 0 , totalg = 0 , totalb = 0
+                    // 遍历所有周围的点的和
+                    for( var dx = 0 ; dx < size ; dx ++ )
+                        for( var dy = 0 ; dy < size ; dy ++ ){
+
+                            var x = i + dx;
+                            var y = j + dy;
+
+                            var p = x*canvasb.width + y;
+                            totalr += tmpPixelData[p*4+0];
+                            totalg += tmpPixelData[p*4+1];
+                            totalb += tmpPixelData[p*4+2];
+                        }
+
+                    var p = i*canvasb.width+j
+                    var resr = totalr / totalnum
+                    var resg = totalg / totalnum
+                    var resb = totalb / totalnum
+
+                    // 设置当前周围所有点的值为周围所有点的和的平均值
+                    for( var dx = 0 ; dx < size ; dx ++ )
+                        for( var dy = 0 ; dy < size ; dy ++ ){
+
+                            var x = i + dx
+                            var y = j + dy
+
+                            var p = x*canvasb.width + y
+                            pixelData[p*4+0] = resr
+                            pixelData[p*4+1] = resg
+                            pixelData[p*4+2] = resb
+                        }
+            }
+
+            contextb.putImageData( imageData , 0 , 0 , 0 , 0 , canvasb.width, canvasb.height )
+
+        }
+    </script>
+</body>
+</html>
