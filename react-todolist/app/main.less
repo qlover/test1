@@ -1,0 +1,70 @@
+@width-100: 100%;
+
+
+body {
+	padding: 50px;
+	background-color: #66ccff;
+	font-family: sans-serif;
+
+}
+
+.todoListMain {
+
+	.header {
+
+		input {
+			width: 220px;
+			padding: 10px;
+			font-size: 16px;
+			border: 2px solid #fff;
+		}
+
+		button {
+			padding: 10px;
+			font-size: 16px;
+			margin: 10px;
+			color: #FFF;
+			border: 2px solid #0066ff;
+			background-color: #0066ff;
+			cursor: pointer;
+			
+			&:hover {
+				background-color: #003399;
+				border: 2px solid #003399;
+			}
+
+		}
+
+	}
+
+	.todolists {
+		list-style: none;
+		padding-left: 0;
+		width: 255px;
+
+		li {
+			color: #333;
+			background: rgba(255, 255, 255, .5);
+			padding: 15px;
+			margin-bottom: 15px;
+			border-radius: 5%;
+			word-break: break-all;
+		}
+	}
+
+}
+
+
+@media (max-width: 450px) {
+	.todoListMain {
+		.header {
+			input {
+				width: @width-100;
+			}
+			button {
+				width: @width-100;
+			}
+		}
+		
+	}
+}
