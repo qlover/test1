@@ -1,0 +1,41 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/hello/hello-1",
+    "pages/hello/hello-2",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "小程序-HelloWorld",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar":{
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "black",
+    "position": "bottom",
+    "list":[
+      {
+        "index": 0,
+        "pagePath": "pages/index/index",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "首页"
+      },{
+        "index": 1,
+        "pagePath": "pages/hello/hello-1",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "Hello-1"
+      },{
+        "index": 2,
+        "pagePath": "pages/hello/hello-2",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "Hello-2"
+      }
+    ]
+  }
+}
