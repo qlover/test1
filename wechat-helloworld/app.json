@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/entry/entry",
     "pages/hello/hello-1",
     "pages/hello/hello-2",
     "pages/logs/logs"
@@ -11,25 +12,27 @@
     "navigationBarTitleText": "小程序-HelloWorld",
     "navigationBarTextStyle":"black"
   },
-  "tabBar":{
+  "tabBar": {
     "color": "#a9b7b7",
     "selectedColor": "#11cd6e",
     "borderStyle": "black",
     "position": "bottom",
-    "list":[
+    "list": [
       {
         "index": 0,
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/entry/entry",
         "iconPath": "",
         "selectedIconPath": "",
         "text": "首页"
-      },{
+      },
+      {
         "index": 1,
         "pagePath": "pages/hello/hello-1",
         "iconPath": "",
         "selectedIconPath": "",
         "text": "Hello-1"
-      },{
+      },
+      {
         "index": 2,
         "pagePath": "pages/hello/hello-2",
         "iconPath": "",

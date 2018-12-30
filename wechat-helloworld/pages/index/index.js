@@ -1,71 +1,44 @@
-// pages/hello/hello-2.js
+let app = getApp();
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-    data: {
-      movies: [
-        { url:'/public/img/001.jpg'},
-        { url:'/public/img/002.jpg'},
-        { url:'/public/img/003.jpg'},
-        { url:'/public/img/001.jpg'}
-      ]
-    },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-
+  data: {
+    //判断小程序的API，回调，参数，组件等是否在当前版本可用。
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
+  onLoad: () => {
+    
+    // 获取已经授权的权限
+    wx.getSetting({
+      success: (res) => {
+        // 用户已经授权
+        if (res.authSetting['scope.userInfo'] ){
+          // 直接获取用户信息
+          app.goto('/pages/entry/entry', () => {
+            wx.getUserInfo({
+              success: (res) => {
+                app.globalData.userInfo = res.userInfo;
+              }
+            })
+          })
+        }else{
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+        }
+      }
+    });
+    
   },
+  onGetUserInfo: e => {
+    // 授权之后要跳转到的页面若为 tabBar页面，则不可以用wx.navigateTo和wx.redirecTo，
+    // 而应该用 wx.switchTab 或 wx.reLaunch
+    //允许
+    if (e.detail.userInfo) {
+      // 跳转到 entry tabBar 页面
+      app.goto('/pages/entry/entry', () => {
+        app.globalData.userInfo = e.detail.userInfo
+      })
+    } 
+    //拒绝
+    else {
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    }
   }
 })
