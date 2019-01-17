@@ -33,9 +33,9 @@ export default class extends Component {
                 loaded: true,
             })
         } catch (err) {
-            console.log("Error", err);
+            //console.log("Error", err);
         }
-        console.log('Recommend.js >> fetchData state', this.state)
+        //console.log('Recommend.js >> fetchData state', this.state)
     }
 
 	render(){

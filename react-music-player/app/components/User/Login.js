@@ -31,7 +31,7 @@ export default class extends Component {
     }
 
     userInfoHandle() {
-        console.log('login.js userInfoHandle', this.props)
+        //console.log('login.js userInfoHandle', this.props)
         if (this.state.userName !== '' || this.state.userPassword !== '') {
             // 地址跳转
             this.props.history.push({pathname: '/user/center'});

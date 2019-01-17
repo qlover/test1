@@ -3,7 +3,7 @@ import Album from '../../components/Album/Album';
 import * as musicInfoAction from '../../actions/music';
 import {bindActionCreators} from 'redux';
 const mapStateToProps = (state) => {
-	// console.log('album contaniners mapStateToProps>>', state)
+	//console.log('album contaniners mapStateToProps>>', state)
     return state;
 };
 const mapDispatchToProps = (dispatch) => {

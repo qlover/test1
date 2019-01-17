@@ -18,7 +18,7 @@ export default class extends Component {
 		request.asyncGet(`/kugou/${API.rank}`).then(res => res.json()).then(resData => {
 			// this.props.rankDataActions.saveRankList(resData);
 			this.props.rankActions.saveRankList(resData);
-			console.log('Rank >> rankDataActions', this.props)
+			//console.log('Rank >> rankDataActions', this.props)
 			this.setState({
 				loaded: true
 			})

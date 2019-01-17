@@ -23,7 +23,7 @@ const fetchSearchHot = () => {
             let resultData = await result.json();
             // dispatch(saveSearchHot(resultData));
         } catch (err) {
-            console.log("Error", err);
+            //console.log("Error", err);
         }
     }
 };
@@ -35,7 +35,7 @@ const fetchSearchResult = (keyword, page = 1, pagesize = 20) => {
             let resultData = await result.json();
             dispatch(saveSearchResult(resultData));
         } catch (err) {
-            console.log("Error", err);
+            //console.log("Error", err);
         }
     }
 };

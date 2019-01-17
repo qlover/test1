@@ -20,7 +20,7 @@ export default class extends Component {
                 loaded: true,
                 artist: resData.list,
             });
-            console.log('Artist >> this.state.artist', this.state.artist);
+            //console.log('Artist >> this.state.artist', this.state.artist);
         }).catch(err => {
             console.log('Error:' + err);
         })

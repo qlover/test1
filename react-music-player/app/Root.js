@@ -5,7 +5,7 @@ import configureStore from './store/configureStore';
 const store = configureStore();
 
 // store.subscribe(() =>
-//     console.log('root store', store.getState())
+//     //console.log('root store', store.getState())
 // );
 
 const Root = () => (

@@ -3,7 +3,7 @@ import Center from '../../components/User/Center';
 // import * as musicInfoAction from '../../actions/music';
 import {bindActionCreators} from 'redux';
 const mapStateToProps = (state) => {
-	console.log('center mapStateToProps', state)
+	//console.log('center mapStateToProps', state)
     return {
         userInfo: state.userInfo,
         // 收藏列表

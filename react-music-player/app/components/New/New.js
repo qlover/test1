@@ -15,7 +15,7 @@ export default class extends Component{
     }
 
     componentDidMount() {
-        console.log('New >> this.props', this.props);
+        //console.log('New >> this.props', this.props);
 
         request.asyncGet(`/kugou/${API.new_song}`)
             .then(res => res.json())
@@ -24,7 +24,7 @@ export default class extends Component{
                     loaded: true,
                     newsong: resData.data
                 });
-                console.log('New >> this.state.newsong', this.state.newsong)
+                //console.log('New >> this.state.newsong', this.state.newsong)
             })
             .catch(err => {
                 console.log('Error:' + err);

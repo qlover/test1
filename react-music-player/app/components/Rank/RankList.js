@@ -20,7 +20,7 @@ export default class extends Component {
                 loaded: true,
                 rank_song: resData
             });
-            console.log('RankList >> this.state', this.state)
+            //console.log('RankList >> this.state', this.state)
         }).catch(err => {
             console.log('Error:' + err);
         });

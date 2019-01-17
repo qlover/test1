@@ -40,7 +40,7 @@ export default class extends Component {
 					albumList: res.list,
 					loaded: true
 				});
-				console.log('album >> this.state', this.state)
+				//console.log('album >> this.state', this.state)
 			})
 			.catch(e => {
 				console.error(e)
@@ -65,7 +65,7 @@ export default class extends Component {
 	}
 
 	render() {
-		console.log('album >> this.props', this.props)
+		//console.log('album >> this.props', this.props)
 		return (
 			<div className="container">
 				<Header title="歌单"/>{

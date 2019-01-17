@@ -1,5 +1,5 @@
 import userInfo from './userInfo';
-import {albums, music, favoriteMusic} from './music';
+import {albums, music, musicList, favoriteMusic, control, progress} from './music';
 import {combineReducers} from 'redux';
 import {rankList} from './rank';
 
@@ -9,5 +9,8 @@ export default combineReducers({
     albums,
     rankList,
     music,
+    musicList,
     favoriteMusic,
+    control,
+    progress,
 })

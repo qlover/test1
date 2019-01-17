@@ -6,7 +6,7 @@ import Recommend from './Recommend';
 export default class extends Component {
     componentDidMount() {
         // this.props.searchActions.fetchSearchHot();
-        console.log('search', this.props)
+        //console.log('search', this.props)
     }
 
     render() {

@@ -23,7 +23,7 @@ export default class extends Component {
 
 	componentDidMount() {
 		// this.fetchData();
-		console.log('artistlistsinger >> this.props', this.props);
+		//console.log('artistlistsinger >> this.props', this.props);
 		request.asyncGet(`/yy_kugou/singer/home/${this.props.match.params.id}.html`).then(res => res.text()).then(res => {
 			const $ = Cheerio.load(res);
 			const list = $('#song_container').children();
@@ -38,7 +38,7 @@ export default class extends Component {
 				singerimg: this.props.location.state.singerimg.replace(/\{size\}/g, '400'),
 				singername: this.props.location.state.singername
 			});
-			console.log('artistlistsinger >> this.state', this.state);
+			//console.log('artistlistsinger >> this.state', this.state);
 		})
 	}
 
@@ -72,7 +72,7 @@ export default class extends Component {
 	// }
 
 	addFavorite(ele) {
-		console.log('artistlistsinger addFavorite this.props ', this.props)
+		//console.log('artistlistsinger addFavorite this.props ', this.props)
 		const hash  = ele.split('|')[1];
 		const filename = ele.split('|')[0];
 		const currentEle = this.refs[hash];
