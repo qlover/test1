@@ -5,8 +5,8 @@ import Recommend from './Recommend';
 
 export default class extends Component {
     componentDidMount() {
-        // this.props.searchActions.fetchSearchHot();
-        //console.log('search', this.props)
+        // 请求执搜信息
+        this.props.searchActions.fetchSearchHot();
     }
 
     render() {

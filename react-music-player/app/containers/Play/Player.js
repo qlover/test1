@@ -1,25 +1,29 @@
 import {connect} from 'react-redux';
 import Player from '../../components/Play/Player';
-import * as musicInfoAction from '../../actions/music';
+import * as musicActions from '../../actions/music';
+import * as playActions from '../../actions/play';
+import * as spinActions from '../../actions/spin';
 import {bindActionCreators} from 'redux';
 
 const mapStateToProps = (state) => {
-	//console.log('Player containers state=', state)
+	// console.log('Player containers state=', state)
 	return {
 		musicList: state.musicList,
         music: state.music,
-        control:state.control,
-        progress:state.progress,
-        audio:state.audio,
-        lyricsUpdate:state.lyricsUpdate,
-        spin:state.spin,
-        volumeObj:state.volumeObj
+        control: state.control,
+        progress: state.progress,
+        audio: state.audio,
+        lyrics: state.lyrics,
+        spin: state.spin,
+        volumeReducer: state.volumeReducer
 	};
 };
 
 const mapDispatchToProps = (dispatch) =>{
 	return {
-		musicInfoActions: bindActionCreators(musicInfoAction, dispatch)
+		musicActions: bindActionCreators(musicActions, dispatch),
+		playActions: bindActionCreators(playActions, dispatch),
+		spinActions: bindActionCreators(spinActions, dispatch)
 	}
 };
 

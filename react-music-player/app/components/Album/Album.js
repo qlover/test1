@@ -28,7 +28,21 @@ export default class extends Component {
 
 
 	playAll() {
+		console.log('playAll', this.props);
+		const albumSongList = this.state.albumList.list.info;
+		// 列表中的其中一个音乐
+		const other = albumSongList[1];
+		if ( albumSongList.length > 0) {
+			for( let i = 0, l = albumSongList.length; i < l; i++){
+				// 请求列表歌曲，该方法可以默认添加歌曲到 musicList 中
+				this.props.musicActions.fetchMusic(albumSongList[i].hash);
+			}
 
+			// 利用当前 Hash 得到每一首歌曲
+			this.props.musicActions.getMusicByHash({hash: other.hash});
+		    this.props.musicActions.playControl({playing: true});
+	        this.props.history.push(`/play/#${other.hash}`);
+		}
 	}
 
 	async fetchData() {
@@ -37,6 +51,8 @@ export default class extends Component {
 			.then(res => {
 				this.setState({
 					albumInfo: res.info,
+					// 添加状态
+					// 精选歌曲的列表
 					albumList: res.list,
 					loaded: true
 				});
@@ -51,10 +67,10 @@ export default class extends Component {
 		const currentEle = this.refs[ele.hash];
 		if (currentEle.style.color === '') {
 			currentEle.style.color = 'rgb(233, 32, 61)';
-			this.props.musicInfoActions.addFavorite(ele.hash + ',' + ele.filename);
+			this.props.musicActions.addFavorite(ele.hash + ',' + ele.filename);
 		} else {
 			currentEle.style.color = '';
-			this.props.musicInfoActions.removeFavorite(ele.hash + ',' + ele.filename);
+			this.props.musicActions.removeFavorite(ele.hash + ',' + ele.filename);
 		}
 	}
 
@@ -80,7 +96,11 @@ export default class extends Component {
 								<p>更新时间：{this.state.albumInfo.list.publishtime.split(/\s/)[0]}</p>
 							</div>
 						</div>
-						<div className="play_all"><span>播放全部</span> <i onClick={this.playAll} className="icon-playlist_add"></i></div>
+						<div className="play_all">
+							<span>播放全部</span>
+							<i className="icon-playlist_add"
+								onClick={ this.playAll } ></i>
+							</div>
 						<div className="album-list">
 							<ul>{
 								this.state.albumList.list.info.map( (ele, ind) => {

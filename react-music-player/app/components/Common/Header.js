@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
+
 export default class extends Component {
     render() {
         return (
             <div className="header" style={this.props.style ? this.props.style : null}>
-                <div className="headerBack" onClick={ (e) => this.handleBack(e)}>
+                <div className="headerBack" onClick={this.handleBack}>
                     <i className="icon-keyboard_arrow_left"></i>
                 </div>
                 <div className="headerTitle">
@@ -16,7 +17,7 @@ export default class extends Component {
         )
     }
 
-    handleBack(e) {
+    handleBack() {
         window.history.back();
     }
 }

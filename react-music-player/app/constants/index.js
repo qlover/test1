@@ -19,5 +19,3 @@ export const SPIN_HIDE = 'SPIN_HIDE';
 /*********** search *******************/
 export const SAVE_SEARCH_HOT = 'SAVE_SEARCH_HOT';
 export const SAVE_SEARCH_RESULT = 'SAVE_SEARCH_RESULT';
-
-

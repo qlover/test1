@@ -2,19 +2,10 @@ import * as actionTypes from '../constants/index';
 import {
     unique
 } from '../util/tools';
-// 总歌单操作
-const albums = (state = {}, action) => {
-    switch (action.type) {
-        case actionTypes.MUSIC_UPDATE:
-            return action.data;
-            break;
-        default:
-            return state
-    }
-};
 
 // 当前播放的音乐
-const music = (state = {}, action) => {
+// 获得当前播放音乐的 hash 值到 redux 状态
+const getMusicByHashReducer = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.MUSIC_GET_HASH:
             return action.data;
@@ -24,13 +15,13 @@ const music = (state = {}, action) => {
 };
 
 // 歌曲收藏
-const favoriteMusic = (state = [], action) => {
+const favoriteMusicReducer = (state = [], action) => {
     switch (action.type) {
         // 添加
         case actionTypes.MUSIC_ADD_FAVORITE:
             let arr = [...state, action.data];
             return unique(arr);
-            // 删除
+        // 删除
         case actionTypes.MUSIC_REMOVE_FAVORITE:
             const index = state.indexOf(action.data);
             state.splice(index, 1);
@@ -42,7 +33,7 @@ const favoriteMusic = (state = [], action) => {
 
 
 // 播放列表
-const musicList = (state = [], action) => {
+const musicListReducer = (state = [], action) => {
     switch (action.type) {
         // actions/music/addMusic()
         case actionTypes.MUSIC_ADD:
@@ -63,7 +54,7 @@ const musicList = (state = [], action) => {
                 }
             });
             break;
-            // actions/music/removeAllMusic()
+        // actions/music/removeAllMusic()
         case actionTypes.MUSIC_REMOVE_ALL:
             return state = [];
             break;
@@ -74,7 +65,7 @@ const musicList = (state = [], action) => {
 
 // 播放控制
 // 默认未播放状态
-const control = (state = {
+const playControlReducer = (state = {
     playing: false
 }, action) => {
     switch (action.type) {
@@ -89,7 +80,7 @@ const control = (state = {
 // 播放进度
 // 默认当前时间为0
 // 默认百分比为 0
-const progress = (state = {
+const updateProgressReducer = (state = {
     currentTime: 0,
     percentage: 0
 }, action) => {
@@ -101,11 +92,35 @@ const progress = (state = {
     }
 };
 
+// 音量
+// 声音大小，默认 0.5
+const volumeReducer = (state = {
+    volume: 0.5
+}, action) => {
+    switch (action.type) {
+        case actionTypes.MUSIC_VOLUME:
+            return Object.assign({}, state, action.data);
+        default:
+            return state;
+    }
+};
+
+// 歌词同步
+const lyricsUpdateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case actionTypes.MUSIC_UPDATELYRICS:
+            return Object.assign({}, state, action.data);
+        default:
+            return state;
+    }
+};
+
 export {
-    albums,
-    music,
-    favoriteMusic,
-    musicList,
-    control,
-    progress
+    getMusicByHashReducer,
+    playControlReducer,
+    updateProgressReducer,
+    favoriteMusicReducer,
+    musicListReducer,
+    volumeReducer,
+    lyricsUpdateReducer,
 };

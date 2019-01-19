@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import SongPlayList from '../../components/Home/SongPlayList';
 import {bindActionCreators} from 'redux';
-import * as musicInfoAction from '../../actions/music';
+import * as albumActions from '../../actions/album';
 
 const mapStateToProps = (state) => {
     return {
@@ -10,7 +10,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        albumsActions: bindActionCreators(musicInfoAction, dispatch)
+        albumActions: bindActionCreators(albumActions, dispatch)
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SongPlayList);

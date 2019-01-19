@@ -38,8 +38,8 @@ export default class extends Component {
         //console.log('Recommend.js >> fetchData state', this.state)
     }
 
-	render(){
-		const setting = {
+    render(){
+        const setting = {
             dots: true,
             infinite: true,
             speed: 500,
@@ -87,5 +87,5 @@ export default class extends Component {
                 <Loading/>
             )
         }
-	}
+    }
 }

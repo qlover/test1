@@ -1,6 +1,3 @@
-/**
- * Created by 0easy-23 on 2017/9/23.
- */
 import React, {
 	Component
 } from 'react';
@@ -28,8 +25,8 @@ export default class extends Component {
 			let response_song_play = await request.asyncGet(`/kugou/${API.song_play}`);
 			let data_song_play = await response_song_play.json();
 			// albums action
-			// /actions/music.updateMusic()
-			this.props.albumsActions.updateMusic(data_song_play.plist.list);
+			// /actions/music.getAlbums()
+			this.props.albumActions.getAlbums(data_song_play.plist.list);
 			// 重设加载状态为完成
 			this.setState({
 				loaded: true,
@@ -41,6 +38,7 @@ export default class extends Component {
 	}
 
 	render() {
+		// console.log('SongPlayList render>>', this.props)
 		const songPlay = this.state.loaded && this.props.totalAlbums.info.map((ele, index) => {
 			if (index < 9) {
 				return (

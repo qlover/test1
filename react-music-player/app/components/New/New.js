@@ -15,7 +15,7 @@ export default class extends Component{
     }
 
     componentDidMount() {
-        //console.log('New >> this.props', this.props);
+        // console.log('New >> this.props', this.props);
 
         request.asyncGet(`/kugou/${API.new_song}`)
             .then(res => res.json())
@@ -41,6 +41,7 @@ export default class extends Component{
             currentEle.style.color = '';
             this.props.musicInfoActions.removeFavorite(ele.hash + ',' + ele.filename);
         }
+        console.log('New', this.props)
     }
 
     setStyle(hash) {

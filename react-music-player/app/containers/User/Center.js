@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import Center from '../../components/User/Center';
-// import * as musicInfoAction from '../../actions/music';
+// import * as musicAction from '../../actions/music';
 import {bindActionCreators} from 'redux';
 const mapStateToProps = (state) => {
 	//console.log('center mapStateToProps', state)
@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-        // musicInfoActions: bindActionCreators(musicInfoAction, dispatch)
+        // musicActions: bindActionCreators(musicAction, dispatch)
     }
 };
 

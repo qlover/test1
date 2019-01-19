@@ -1,4 +1,3 @@
-
 import * as actionTypes from '../constants/index';
 const saveRankList = (data) => {
 	return{

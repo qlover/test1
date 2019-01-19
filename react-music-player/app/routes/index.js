@@ -1,9 +1,9 @@
 import React from 'react';
 import {
-	HashRouter as Router,
-	Switch,
-	Route,
-	Redirect
+    HashRouter as Router,
+    Switch,
+    Route,
+    Redirect
 } from 'react-router-dom';
 
 
@@ -25,7 +25,8 @@ import AlbumList from '../containers/Album/AlbumList';
 import Play from '../containers/Play/Play';
 // 播放组件 
 import Player from '../containers/Play/Player';
-
+// 歌手信息页面
+import ArtistSingerInfo from '../components/Artist/ArtistSingerInfo';
 
 
 const Routes = () => (
@@ -54,6 +55,7 @@ const Routes = () => (
                 <Route path="/artist" exact component={Artist}/>
                 <Route path="/artist/list/:id" exact component={ArtistList}/>
                 <Route path="/artist/list/singer/:id" exact component={ArtistListSinger}/>
+                <Route path="/singer/info" component={ArtistSingerInfo}/>
                 // 播放
                 <Route path="/play" exact component={Play}/>
                 

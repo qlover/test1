@@ -1,6 +1,3 @@
-/**
- * Created by 0easy-23 on 2017/9/28.
- */
 import React, {Component} from 'react';
 import request from '../../util/request';
 import {Link} from 'react-router-dom';
@@ -47,8 +44,8 @@ export default class extends Component {
 		for (let i = 0; i < singerSongs.length; i++) {
 			this.props.musicInfoActions.fetchMusic(singerSongs[i].split('|')[1]);
 		}
-		this.props.musicInfoActions.getMusic({hash: singerSongs[0].split('|')[1]});
-		this.props.musicInfoActions.control({playing: true});
+		this.props.musicInfoActions.getMusicByHash({hash: singerSongs[0].split('|')[1]});
+		this.props.musicInfoActions.playControl({playing: true});
 		this.props.history.push(`/play/#${singerSongs[0].split('|')[1]}`);
 	}
 
