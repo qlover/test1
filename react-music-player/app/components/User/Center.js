@@ -16,7 +16,7 @@ export default class extends Component {
                     <ul className="list-block">
                         <li>
                             <span>我的收藏列表</span>
-                            <Link to={'/user/love'}>
+                            <Link to={'/user/favorite'}>
                                 <i className="icon-keyboard_arrow_right"></i>
                             </Link>
                         </li>

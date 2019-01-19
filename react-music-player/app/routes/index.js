@@ -10,8 +10,13 @@ import {
 import Home from '../containers/Home/Index';
 import Search from '../containers/Search/Search';
 import Result from '../containers/Search/Result';
+
+// 用户界面
 import Login from '../containers/User/Login';
 import Center from '../containers/User/Center';
+import FavoriteList from '../containers/User/FavoriteList';
+
+
 import New from '../containers/New/New';
 import Rank from '../containers/Rank/Rank';
 import RankList from '../containers/Rank/RankList';
@@ -41,6 +46,7 @@ const Routes = () => (
                 // 用户
                 <Route path="/user/login" component={Login}/>
                 <Route path="/user/center" component={Center}/>
+                <Route path="/user/favorite" component={FavoriteList}/>
                 // 如果要用 URL 地址参数获取后面的值,要加 :
                 // 精选
                 <Route path="/album/:id"  component={Album}/>
