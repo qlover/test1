@@ -20,12 +20,6 @@ export default class extends Component {
                                 <i className="icon-keyboard_arrow_right"></i>
                             </Link>
                         </li>
-                        <li>
-                            <span>开发者：<a href="https://github.com/chenjun1127/react-music">Jone-chen </a></span>
-                        </li>
-                        <li>
-                            <span><a href="http://www.cnblogs.com/jone-chen/">开发者博客</a></span>
-                        </li>
                     </ul>
                 </div>
             </div>
