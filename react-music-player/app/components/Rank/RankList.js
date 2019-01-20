@@ -15,7 +15,7 @@ export default class extends Component {
 	}
 
 	componentDidMount() {
-		request.asyncGet(`/kugou/${API.rankid}?rankid=${this.props.match.params.id}&page=1&json=true`).then(res => res.json()).then(resData => {
+		request.asyncGet(API.getRankId(this.props.match.params.id)).then(res => res.json()).then(resData => {
 			this.setState({
 				loaded: true,
 				rank_song: resData
@@ -57,40 +57,38 @@ export default class extends Component {
 				<Header title="排行榜详情"/>
 				{
 					this.state.loaded ?
-						<div className="rank_song_list">
-							<div className="rank_banner">
-								<div className="banner_img" 
-									style={{backgroundImage: `url(${this.state.rank_song.info.imgurl.replace(/\{size\}/g, 400)})`}}
-								></div>
-								<p className="rank_tips_time">更新时间：{getLocalTime(this.state.rank_song.songs.timestamp)}</p>
-							</div>
-							<div className="play_all">
-								<span>播放全部</span>
-								<i className="icon-playlist_add"
-									onClick={ () => this.playAll() } 
-								></i>
-							</div>
-							<ul className="songList">{
-								this.state.rank_song.songs.list.map((ele, index) => {
-									return (
-										<li key={index}>
-											<em>{index + 1}</em>
-											<Link to={'/play/#' + ele.hash}>
-												<span 
-													className={this.props.music.hash === ele.hash ? 'active' : ''}
-												>{ele.filename}</span>
-											</Link>
-											<i className="icon-favorite" 
-												style={this.setStyle(ele.hash)} 
-												ref={ele.hash} 
-												onClick={() => this.addFavorite(ele)}
-											></i>
-										</li>
-									)
-								})
-							}</ul>
-						</div> :
-						<Loading />
+					<div className="rank_song_list">
+						<div className="rank_banner">
+							<div className="banner_img" 
+								style={{backgroundImage: `url(${this.state.rank_song.info.imgurl.replace(/\{size\}/g, 400)})`}}
+							></div>
+							<p className="rank_tips_time">更新时间：{getLocalTime(this.state.rank_song.songs.timestamp)}</p>
+						</div>
+						<div className="play_all">
+							<span>播放全部</span>
+							<i className="icon-playlist_add"
+								onClick={ () => this.playAll() } ></i>
+						</div>
+						<ul className="songList">{
+							this.state.rank_song.songs.list.map((ele, index) => {
+								return (
+									<li key={index}>
+										<em>{index + 1}</em>
+										<Link to={'/play/#' + ele.hash}>
+											<span className={this.props.music.hash === ele.hash ? 
+												'active' : ''}>{ele.filename}
+											</span>
+										</Link>
+										<i className="icon-favorite" 
+											style={this.setStyle(ele.hash)} 
+											ref={ele.hash} 
+											onClick={() => this.addFavorite(ele)}></i>
+									</li>
+								)
+							})
+						}</ul>
+					</div> :
+					<Loading />
 				}
 			</div>
 		)

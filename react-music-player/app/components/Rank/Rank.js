@@ -15,7 +15,7 @@ export default class extends Component {
 	}
 
 	componentDidMount() {
-		request.asyncGet(`/kugou/${API.rank}`).then(res => res.json()).then(resData => {
+		request.asyncGet(API.getRank()).then(res => res.json()).then(resData => {
 			// this.props.rankDataActions.saveRankList(resData);
 			this.props.rankActions.saveRankList(resData);
 			//console.log('Rank >> rankDataActions', this.props)
@@ -35,23 +35,21 @@ export default class extends Component {
 				<Nav {...this.props}/>
 				{
 					this.state.loaded ?
-						<ul className="rankList">
-							{
-								this.props.rankList.rank.list.map( (ele, ind) => {
-									return(
-										<li key={ele.rankid}>
-											<Link to={`/rank/list/${ele.rankid}`}>
-												<img src={ele.imgurl.replace(/\{size\}/g, 400)}/>
-												<div className="rank_right">
-													<p>{ele.rankname}</p>
-												</div>
-												<i className="icon-keyboard_arrow_right"></i>
-											</Link>
-										</li>
-									);
-								})
-							}
-						</ul>:
+						<ul className="rankList">{
+							this.props.rankList.rank.list.map( (ele, ind) => {
+								return(
+									<li key={ele.rankid}>
+										<Link to={`/rank/list/${ele.rankid}`}>
+											<img src={ele.imgurl.replace(/\{size\}/g, 400)}/>
+											<div className="rank_right">
+												<p>{ele.rankname}</p>
+											</div>
+											<i className="icon-keyboard_arrow_right"></i>
+										</Link>
+									</li>
+								);
+							})
+						}</ul>:
 					<Loading />
 				}
 			</div>

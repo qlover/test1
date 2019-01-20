@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import request from '../../util/request';
+import API from '../../util/API';
 import {Link} from 'react-router-dom';
 import Header from '../Common/Header';
 import Loading from '../Common/Loading';
@@ -21,7 +22,7 @@ export default class extends Component {
 	componentDidMount() {
 		// this.fetchData();
 		//console.log('artistlistsinger >> this.props', this.props);
-		request.asyncGet(`/yy_kugou/singer/home/${this.props.match.params.id}.html`).then(res => res.text()).then(res => {
+		request.asyncGet(API.getSingerHome(this.props.match.params.id)).then(res => res.text()).then(res => {
 			const $ = Cheerio.load(res);
 			const list = $('#song_container').children();
 			const dataArr = [];
@@ -90,13 +91,13 @@ export default class extends Component {
 		return (
 			<div className="container">
 				<Header title={this.state.loaded ? this.state.singername : null}/>
-				{this.state.loaded && this.state.singerSongs.length > 0 ?
+				{
+					this.state.loaded && this.state.singerSongs.length > 0 ?
 					<div className="singerContainer">
 						<div className="album-bg-singer"
-							style={{backgroundImage: `url(${this.state.singerimg})`}}
-						>
-						<i className="icon-play"
-							onClick={ (e) => this.playAll(e) }></i>
+							style={{backgroundImage: `url(${this.state.singerimg})`}}>
+							<i className="icon-play"
+								onClick={ (e) => this.playAll(e) }></i>
 						</div>
 						<ul className="songList">{
                             this.state.singerSongs.map((ele, index) => {

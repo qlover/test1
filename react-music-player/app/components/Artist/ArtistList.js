@@ -13,7 +13,7 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        request.asyncGet(`/kugou/${API.singer_list}${this.props.match.params.id}?json=true`).then(res => res.json()).then(resData => {
+        request.asyncGet(API.getSingerList(this.props.match.params.id)).then(res => res.json()).then(resData => {
             this.setState({
                 loaded: true, 
                 artistList: resData,
@@ -29,21 +29,19 @@ export default class extends Component {
             <div className="container">
                 <Header title={this.state.loaded ? this.state.artistList.classname : null}/>
                 {this.state.loaded ?
-                    <ul className="artistSingerList">
-                        {
-                            this.state.artistList.singers.list.info.map((ele) => {
-                                return (
-                                    <li key={ele.singerid}>
-                                        <Link to={{pathname:`/artist/list/singer/${ele.singerid}`,state:{singerimg:ele.imgurl,singername:ele.singername}}}>
-                                            <img src={ele.imgurl.replace(/\{size\}/g, 400)}/>
-                                            <span>{ele.singername}</span>
-                                            <i className="icon-keyboard_arrow_right"></i>
-                                        </Link>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul> :
+                    <ul className="artistSingerList">{
+                        this.state.artistList.singers.list.info.map((ele) => {
+                            return (
+                                <li key={ele.singerid}>
+                                    <Link to={{pathname:`/artist/list/singer/${ele.singerid}`,state:{singerimg:ele.imgurl,singername:ele.singername}}}>
+                                        <img src={ele.imgurl.replace(/\{size\}/g, 400)}/>
+                                        <span>{ele.singername}</span>
+                                        <i className="icon-keyboard_arrow_right"></i>
+                                    </Link>
+                                </li>
+                            )
+                        })
+                    }</ul> :
                     <Loading/>
                 }
             </div>

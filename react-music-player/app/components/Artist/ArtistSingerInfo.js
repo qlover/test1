@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import request from '../../util/request';
+import API from '../../util/API';
 import Header from '../Common/Header';
 import Loading from '../Common/Loading';
 import Cheerio from 'cheerio';
@@ -11,7 +12,7 @@ export default class extends Component {
     }
 
     componentDidMount() {
-        request.asyncGet(`/yy_kugou/singer/home/${this.props.location.state.singerId}.html`).then(res => res.text()).then(res => {
+        request.asyncGet(API.getSingerHome(this.props.location.state.singerId)).then(res => res.text()).then(res => {
             const $ = Cheerio.load(res);
             const text = $("#singer_content").text();
             this.setState({

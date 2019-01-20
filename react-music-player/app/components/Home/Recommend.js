@@ -25,7 +25,7 @@ export default class extends Component {
 
     async fetchData() {
         try {
-            let response_new_song = await request.asyncGet(`/kugou/${API.new_song}`);
+            let response_new_song = await request.asyncGet(API.getNewSong());
             let data_new_song = await response_new_song.json();
             this.setState({
                 banner: data_new_song.banner,

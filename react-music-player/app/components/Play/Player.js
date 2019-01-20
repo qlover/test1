@@ -2,6 +2,7 @@
 import React, {Component} from 'react'
 import ReactPlayer from 'react-player';
 import * as localStore from '../../util/localStorage';
+import {getCurrentSong} from '../../util/Music';
 
 class Player extends Component {
 	constructor(props) {
@@ -12,23 +13,6 @@ class Player extends Component {
 	// 当前音乐播放设置当前音乐的 duration 时间
 	onDuration(e) {
 		localStorage.setItem('duration', e)
-	}
-
-	// 与 Play 组件方法一样
-	// 获取当前播放的歌曲
-	getCurrentSong() {
-		const musicList = this.props.musicList;
-		const hash = this.props.music.hash;
-		let currentSong = null;
-		if (musicList.length > 0 && hash) {
-			musicList.map((ele) => {
-				if (ele.song.hash === hash) {
-					currentSong = ele;
-				}
-			})
-		}
-		// console.log('Player currentSong', currentSong)
-		return currentSong;
 	}
 
 	// 播放进度事件
@@ -42,7 +26,7 @@ class Player extends Component {
 		});
 
 		// 获取当前歌曲
-		const currentLyrics = this.getCurrentSong().lyrics;
+		const currentLyrics = getCurrentSong(this.props.music.hash, this.props.musicList).lyrics;
         for (let i = 0, l = currentLyrics.length; i < l; i++) {
             if (state.playedSeconds > currentLyrics[i][0]) {
                 //显示到页面
@@ -90,7 +74,7 @@ class Player extends Component {
 
 	render() {
 		// console.log('Player this.props', this.props)
-		const currentSong = this.getCurrentSong();
+		const currentSong = getCurrentSong(this.props.music.hash, this.props.musicList);
 		const url = currentSong ? currentSong.song.url : null;
 		const volume = this.props.volumeReducer.volume;
 		return (

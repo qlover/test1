@@ -58,10 +58,10 @@ const fetchMusic = (hash, defaultDispatch = true) => {
         // dispatch(spin_show());
         try {
             // 歌曲详细信息
-            let res_song = await request.asyncGet(`/kugou/${API.song_detail}?cmd=playInfo&hash=${hash}`);
+            let res_song = await request.asyncGet(API.getSongDetail(hash));
             let res_song_detail = await res_song.json();
             // 歌曲歌词
-            let res_lyrics = await request.asyncGet(`/kugou/${API.song_lyrics}?cmd=100&hash=${hash}&timelength=${res_song_detail.timeLength}`);
+            let res_lyrics = await request.asyncGet(API.getSongLyrics(hash, res_song_detail.timeLength));
             let res_lyrics_detail = await res_lyrics.text();
 
             // 请求的数据带上歌曲和该歌曲歌词信息

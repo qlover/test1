@@ -15,7 +15,8 @@ const mapStateToProps = (state) => {
         audio: state.audio,
         lyrics: state.lyrics,
         spin: state.spin,
-        volumeReducer: state.volumeReducer
+        volumeReducer: state.volumeReducer,
+        IANANAME: 'qlover' 
 	};
 };
 

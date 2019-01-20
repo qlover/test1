@@ -75,13 +75,10 @@ export default class extends Component {
                 	rightIcon="icon-playlist_add" 
                 	rightIconStyle={{fontSize: '24px'}} 
                 	rightAction={ () => this.playAll() }/>
-                	{
-                		
-                			this.state.loaded && JSON.stringify(this.props.resultList) !== '{}'?
-                				<ul className="songList">{result}</ul> :
-                					<Loading />
-		        	}	
-
+                {
+        			this.state.loaded && JSON.stringify(this.props.resultList) !== '{}'?
+        				<ul className="songList">{result}</ul> : <Loading />
+    	        }
             </div>
         	
         )

@@ -21,25 +21,25 @@ export default class extends Component {
 				<Header title={'收藏列表（' + this.state.loveMusicList.length + '首）'}/>
 				{
 					this.props.favoriteMusic.length > 0 ?
-						<ul className="songList">
-							{
-								this.state.loveMusicList.map((ele, index) => {
-									const eleArr = ele.split(',');
-									return (
-										<li key={index}>
-											<Link to={'/play/#' + eleArr[0]}>
-												<span className={this.props.music.hash === eleArr[0] ? 'active' : ''}>{eleArr[1]}</span>
-											</Link>
-											<i className="icon-trash-2" onClick={() => this.removeLoveMusic(ele)}></i>
-										</li>
-									)
-								})
-							}
-						</ul> :
-						<div className="no-data">
-							<img src="/public/images/nodata.png" />
-							<span>暂无音乐，快去添加吧！</span>
-						</div>
+					<ul className="songList">
+						{
+							this.state.loveMusicList.map((ele, index) => {
+								const eleArr = ele.split(',');
+								return (
+									<li key={index}>
+										<Link to={'/play/#' + eleArr[0]}>
+											<span className={this.props.music.hash === eleArr[0] ? 'active' : ''}>{eleArr[1]}</span>
+										</Link>
+										<i className="icon-trash-2" onClick={() => this.removeLoveMusic(ele)}></i>
+									</li>
+								)
+							})
+						}
+					</ul> :
+					<div className="no-data">
+						<img src="/public/images/nodata.png" />
+						<span>暂无音乐，快去添加吧！</span>
+					</div>
 				}
 			</div>
 		)

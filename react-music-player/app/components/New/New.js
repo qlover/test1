@@ -17,7 +17,7 @@ export default class extends Component{
     componentDidMount() {
         // console.log('New >> this.props', this.props);
 
-        request.asyncGet(`/kugou/${API.new_song}`)
+        request.asyncGet(API.getNewSong())
             .then(res => res.json())
             .then(resData => {
                 this.setState({
@@ -55,29 +55,24 @@ export default class extends Component{
                 <Nav {...this.props}/>
                 {
                     this.state.loaded ?
-                    <ul className="songList">
-                        {
-                            this.state.newsong.map( (ele, ind) => {
-                                return(
-                                    <li key={ind} >
-                                        <Link to={`/play/#${ele.hash}`}>
-                                            <span 
-                                                className={
-                                                    this.props.music.hash === ele.hash ?
-                                                     'active' : ''
-                                                }
-                                            >{ele.filename}</span>
-                                        </Link>
-                                        <i 
-                                            className="icon-favorite" 
-                                            style={this.setStyle(ele.hash)} 
-                                            ref={ele.hash} 
-                                            onClick={() => this.addFavorite(ele)}></i>
-                                    </li>
-                                )
-                            })
-                        }
-                    </ul> :
+                    <ul className="songList">{
+                        this.state.newsong.map( (ele, ind) => {
+                            return(
+                                <li key={ind} >
+                                    <Link to={`/play/#${ele.hash}`}>
+                                        <span className={this.props.music.hash === ele.hash ?
+                                            'active' : ''}>{ele.filename}
+                                        </span>
+                                    </Link>
+                                    <i 
+                                        className="icon-favorite" 
+                                        style={this.setStyle(ele.hash)} 
+                                        ref={ele.hash} 
+                                        onClick={() => this.addFavorite(ele)}></i>
+                                </li>
+                            )
+                        })
+                    }</ul> :
                     <Loading />
                 }
             </div>

@@ -3,7 +3,7 @@ import * as actionTypes from '../constants/index';
 // 总歌单操作
 const albumsReducer = (state = {}, action) => {
     switch (action.type) {
-        case actionTypes.MUSIC_UPDATE:
+        case actionTypes.ALBUMS_GET:
             return action.data;
             break;
         default:

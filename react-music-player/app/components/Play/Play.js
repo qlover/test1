@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import Header from '../../components/Common/Header';
 // 格式化时间
 import {formatTime} from '../../util/tools';
+import {getCurrentSong} from '../../util/Music';
 // 本地存储
 import * as localStore from '../../util/localStorage';
 // 转 es6 语法
@@ -62,25 +63,7 @@ export default class Player extends Component {
 		}
 	}
 
-	// 获取当前播放的歌曲
-	getCurrentSong(){
-		const musicList = this.props.musicList;
-		const hash = this.props.music.hash;
-		let currentSong = null;
-		if (musicList.length > 0 && hash) {
-			musicList.map((ele) => {
-				if (ele.song.hash === hash) {
-					currentSong = ele;
-				}
-			})
-		}
-		// console.log('Play getCurrentSong', currentSong)
-		// return {
-		// 	song:{},
-			
-		// }
-		return currentSong;
-	}
+	
 
 	favouriteStyle() {
 		return this.props.favoriteMusic.toString().indexOf(this.props.music.hash) > -1 ? {color: 'rgb(233, 32, 61)'} : {color: ''};
@@ -246,13 +229,13 @@ export default class Player extends Component {
 		// console.log('Play render', this.props);
 		// 首先要判断是否获取得到当前 song
 		// 因为在网络在第一次渲染的时候可能没有那们快
-		const current = this.getCurrentSong();
+		const current = getCurrentSong(this.props.music.hash, this.props.musicList);
 		if (current) {
 
 			// 当前歌曲
 			const currentSong = current.song;
 			// 当前歌曲歌词
-			const currentSongLyrics = this.getCurrentSong().lyrics;
+			const currentSongLyrics = getCurrentSong(this.props.music.hash, this.props.musicList).lyrics;
 			// console.log('currentSongLyrics', currentSongLyrics)
 			// 当前歌曲的图片来源
 			const albumImg = currentSong.imgUrl.replace(/\{size\}/g, 400);

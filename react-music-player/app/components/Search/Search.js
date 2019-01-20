@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import * as localStore from '../../util/localStorage';
 
 export default class extends Component {
@@ -8,44 +10,59 @@ export default class extends Component {
             'loaded': false,
             'value': '',
             'display': false,
-            history: localStore.getItem('search_history') ? localStore.getItem('search_history').split(',') : []
+            'history': localStore.getItem('search_history') ?
+                localStore.getItem('search_history').split(',') : []
         };
 
     }
+
     componentDidMount() {
-        JSON.stringify(this.props.hotList) !== '{}' && localStore.setItem('hotList', JSON.stringify(this.props.hotList.data.info));
+        JSON.stringify( this.props.hotList ) !== '{}' &&
+            localStore.setItem('hotList',
+                JSON.stringify(this.props.hotList.data.info));
     }
 
-    clearTextHandler(e){
-        this.setState({'value': '', 'display': false})
+
+    clearTextHandler(e) {
+        this.setState({
+            'value': '',
+            'display': false
+        })
     }
 
-    keyUpHandler(e){
-        this.setState({display: true});
-        e.keyCode === 13 && this.searchHanler();
+    keyUpHandler(e) {
+        this.setState({
+            'display': true
+        });
+        // keyCode 13 == Enter
+        e.keyCode === 13 && this.searchHandler();
     }
 
-    changeHandler(e){
+    changeHandler(e) {
         this.setState({
             'value': e.target.value,
             'display': true
         })
     }
 
-    clearHistoryHandler(e, text){
+    clearHistoryHandler(e, text) {
         const historyArr = localStore.getItem('search_history').split(',');
         const index = historyArr.indexOf(text);
         historyArr.splice(index, 1);
         localStore.setItem('search_history', historyArr);
-        this.setState({history: historyArr});
+        this.setState({
+            'history': historyArr
+        });
     }
 
-    searchHanler(e){
+    searchHandler(e) {
         const searchValue = this.state.value.trim();
         if (searchValue !== '') {
             this.props.history.push({
                 'pathname': '/search/result',
-                'state': {searchValue: searchValue}
+                'state': {
+                    searchValue: searchValue
+                }
             });
             // 并将搜索历史记录在本地存储中
             this.setHistory(searchValue);
@@ -54,16 +71,23 @@ export default class extends Component {
     }
 
     searchHotHandler(val) {
-        this.props.history.push({pathname: '/search/result', state: {searchValue: val}});
+        this.props.history.push({
+            pathname: '/search/result',
+            state: {
+                searchValue: val
+            }
+        });
         this.setHistory(val);
     }
 
-    clearAllHistoryHandler(e){
+    clearAllHistoryHandler(e) {
         localStore.setItem('search_history', '');
-        this.setState({history: []});
+        this.setState({
+            history: []
+        });
     }
 
-    setHistory(value){
+    setHistory(value) {
         this.setState({
             history: this.state.history.push(value)
         });
@@ -77,16 +101,21 @@ export default class extends Component {
         localStore.setItem('search_history', newHistory);
     }
 
-    render(){
-        const hotListData = JSON.stringify(this.props.hotList) !== '{}' ? this.props.hotList.data.info : JSON.parse(localStore.getItem('hotList'));
+    render() {
+        const hotListData = JSON.stringify(this.props.hotList) !== '{}'?
+            this.props.hotList.data.info :
+            JSON.parse(localStore.getItem('hotList'));
+
         const hotList = hotListData.map((ele) => {
             return (
-                <span key={ele.sort} onClick={() => this.searchHotHandler(ele.keyword)}>
+                <span key={ele.sort} 
+                    onClick={() => this.searchHotHandler(ele.keyword)}>
                     {ele.keyword}
                 </span>
             )
         });
-        return(
+
+        return (
             <div className="container">
                 <div className="header">
                     <div className="headerBack" 
@@ -108,7 +137,7 @@ export default class extends Component {
                         </div>
                     </div>
                     <div className="headerRight" 
-                        onClick={(e)=> this.searchHanler(e) }>搜索</div>
+                        onClick={(e)=> this.searchHandler(e) }>搜索</div>
                 </div>
                 <div className="searchTitle">热门搜索</div>
                 <div className="hotList">
@@ -121,7 +150,8 @@ export default class extends Component {
                 </div>
                 <div className="searchHistory">
                     {
-                        this.state.history.length > 0 ? this.state.history.map((ele, index) => {
+                        this.state.history.length > 0 ? 
+                        this.state.history.map((ele, index) => {
                             return (
                                 <p key={index}>
                                     <span onClick={() => this.searchHotHandler(ele)}>{ele}</span>

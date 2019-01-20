@@ -46,8 +46,7 @@ export default class extends Component {
 	}
 
 	async fetchData() {
-		const url = `/kugou/${API.song_playlist}/${this.props.match.params.id}?json=true`;
-		request.get(url)
+		request.get(API.getAlbumSongList(this.props.match.params.id))
 			.then(res => {
 				this.setState({
 					albumInfo: res.info,

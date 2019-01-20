@@ -1,5 +1,8 @@
 export const USERINFO_UPDATE = 'USERINFO_UPDATE';
-export const MUSIC_UPDATE = 'MUSIC_UPDATE';
+
+// 获取精选内容
+export const ALBUMS_GET = 'ALBUMS_GET';
+
 export const MUSIC_ADD = 'MUSIC_ADD';
 export const MUSIC_REMOVE = 'MUSIC_REMOVE';
 export const MUSIC_REMOVE_ALL = 'MUSIC_REMOVE_ALL';

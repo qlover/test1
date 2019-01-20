@@ -1,16 +1,20 @@
+import {KUGOU} from '../config/api';
+const api = KUGOU;
 const API = {
-    new_song: '?json=true',
-    song_play: 'plist/index&json=true',                     // 歌单
-    song_playlist: 'plist/list',							// plist/list/125032?json=true
-    rank: 'rank/list&json=true',
-    rankid: 'rank/info/', 									// rank/info/?rankid=8888&page=1&json=true'
-    singer_category: 'singer/class&json=true',
-    singer_list: 'singer/list/', 							// singer/list/88?json=true
-    singer_detail: 'singer/info/', 							// singer/info/3060&json=true
-    song_detail: 'app/i/getSongInfo.php', 					// ?cmd=playInfo&hash=CB7EE97F4CC11C4EA7A1FA4B516A5D97
-    song_lyrics:'app/i/krc.php',                            // ?cmd=100&hash=2B8DA604EDFF833B06AD9DCEC3F8F28C&timelength=222000
-    searchHot: 'api/v3/search/hot',
-    searchResult: 'api/v3/search/song',
-};
+	getAPI: () => api,
+	getNewSong: ()  => `${api.new_song}`,
+	getRecommendSong: () => `${api.recommend_song}`,
+	getSearchHot: () => `${api.searchHot}?format=json`,
+	getAlbumSongList: (id) => `${api.album_song_list}/${id}?json=true`,
+	getRank: () => `${api.rank}`,
+	getRankId: (id) => `${api.rankid}?rankid=${id}&page=1&json=true`,
+	getSingerCategory: () => `${api.singer_category}`,
+	getSingerList: (id) => `${api.singer_list}${id}?json=true`,
+	getSingerHome: (id) => `${api.singer_home}${id}.html`,
+	getSongDetail: (hash) => `${api.song_detail}?cmd=playInfo&hash=${hash}`,
+	getSongLyrics: (hash, timeLength) => `${api.song_lyrics}?cmd=100&hash=${hash}&timelength=${timeLength}`,
+	getSearchResult: (keyword, page, pagesize) => `${api.searchResult}?format=json&keyword=${keyword}&page=${page}&pagesize=${pagesize}`,
+}
+
 
 export default API;

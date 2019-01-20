@@ -22,7 +22,7 @@ const saveSearchResult = (data) => {
 const fetchSearchHot = () => {
     return async dispatch => {
         try {
-            let result = await request.asyncGet(`/mobilecdn/${API.searchHot}?format=json`);
+            let result = await request.asyncGet(API.getSearchHot());
             let resultData = await result.json();
             
             // 默认将热搜信息存储
@@ -36,7 +36,7 @@ const fetchSearchHot = () => {
 const fetchSearchResult = (keyword, page = 1, pagesize = 20) => {
     return async dispatch => {
         try {
-            let result = await request.asyncGet(`/mobilecdn/${API.searchResult}?format=json&keyword=${keyword}&page=${page}&pagesize=${pagesize}`);
+            let result = await request.asyncGet(API.getSearchResult(keyword, page, pagesize));
             let resultData = await result.json();
             dispatch(saveSearchResult(resultData));
         } catch (err) {
