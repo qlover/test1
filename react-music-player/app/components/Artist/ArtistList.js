@@ -24,7 +24,13 @@ export default class extends Component {
         });
     }
 
+    // 设置当前歌手的信息
+    setSingerInfo(ele){
+        this.props.artistActions.setSingerInfo(ele)
+    }
+
     render() {
+        // console.log('artist props', this.props)
         return (
             <div className="container">
                 <Header title={this.state.loaded ? this.state.artistList.classname : null}/>
@@ -33,7 +39,9 @@ export default class extends Component {
                         this.state.artistList.singers.list.info.map((ele) => {
                             return (
                                 <li key={ele.singerid}>
-                                    <Link to={{pathname:`/artist/list/singer/${ele.singerid}`,state:{singerimg:ele.imgurl,singername:ele.singername}}}>
+                                    <Link
+                                        onClick={ () => this.setSingerInfo(ele) } 
+                                        to={{pathname:`/artist/list/singer/${ele.singerid}`,state:{singerimg:ele.imgurl,singername:ele.singername}}}>
                                         <img src={ele.imgurl.replace(/\{size\}/g, 400)}/>
                                         <span>{ele.singername}</span>
                                         <i className="icon-keyboard_arrow_right"></i>

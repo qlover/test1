@@ -99,6 +99,9 @@ export default class extends Component {
             }
         }
         localStore.setItem('search_history', newHistory);
+        // 记录当前搜索的这一个记录
+        localStore.setItem('search_value', '');
+        localStore.setItem('search_value', value);
     }
 
     render() {

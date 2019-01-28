@@ -1,6 +1,6 @@
 import React, {Component} from  'react';
 import Header from '../Common/Header';
-// import imgSrc  from '/public/images/logo.png';
+import imgSrc  from '../../static/images/logo.png';
 export default class extends Component {
     constructor(props) {
         super(props);
@@ -73,7 +73,7 @@ export default class extends Component {
             <div className="container-full container-flex">
                 <Header title="登录"/>
                 <div className="login">
-                    <img src="/public/images/logo.png" style={{width: '100px', height: '100px',}} alt=""/>
+                    <img src={imgSrc} style={{width: '100px', height: '100px',}} alt=""/>
                     <form action="/user/center" method="POST">
                         <p style={{borderColor: this.state.userNameIsFocus ? '#e9203d' : '#b8b8b8'}}>
                             <i className="icon-user3"></i>

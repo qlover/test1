@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import ArtistList from '../../components/Artist/ArtistList';
 import * as musicInfoActions from '../../actions/music';
+import * as artistActions from '../../actions/artist';
 import {bindActionCreators} from 'redux';
 
 const mapStateToProps = (state) => {
@@ -8,7 +9,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
     return {
-    	musicInfoActions: bindActionCreators(musicInfoActions, dispatch)
+    	musicInfoActions: bindActionCreators(musicInfoActions, dispatch),
+		artistActions: bindActionCreators(artistActions, dispatch)
     }
 };
 

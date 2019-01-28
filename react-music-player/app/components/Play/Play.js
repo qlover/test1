@@ -16,6 +16,8 @@ import Loading from '../../components/Common/Loading';
 // 导入播放列表组件
 import MusicList from '../../containers/Home/MusicList';
 
+import svg1 from '../../static/css/svg/svg-1.svg';
+import svg2 from '../../static/css/svg/svg-2.svg';
 
 export default class Player extends Component {
 	static defaultProps = {
@@ -70,8 +72,6 @@ export default class Player extends Component {
 	}
 
 	setSVG() {
-		const svg1 = '/public/css/svg/svg-1.svg';
-		const svg2 = '/public/css/svg/svg-2.svg';
 		return this.state.volumed ? {backgroundImage: `url(${svg1})`} : {backgroundImage: `url(${svg2})`};
 	}
 

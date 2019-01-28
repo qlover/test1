@@ -19,9 +19,16 @@ export default class extends Component {
 		this.playAll = this.playAll.bind(this);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		// this.fetchData();
-		//console.log('artistlistsinger >> this.props', this.props);
+		// const singerInfo = this.props.artistActions.getSingerInfo();
+		// console.log('artistlistsinger singerInfo', this.props.singerInfo);
+		const singerInfo = this.props.singerInfo;
+		if (!singerInfo.singerid) {
+			window.history.back();
+			return ;
+		}
+
 		request.asyncGet(API.getSingerHome(this.props.match.params.id)).then(res => res.text()).then(res => {
 			const $ = Cheerio.load(res);
 			const list = $('#song_container').children();
@@ -33,10 +40,10 @@ export default class extends Component {
 			this.setState({
 				loaded: true,
 				singerSongs: dataArr,
-				singerimg: this.props.location.state.singerimg.replace(/\{size\}/g, '400'),
-				singername: this.props.location.state.singername
+				singerimg: singerInfo.imgurl.replace(/\{size\}/g, '400'),
+				singername: singerInfo.singername
 			});
-			//console.log('artistlistsinger >> this.state', this.state);
+			// console.log('artistlistsinger >> this.state', this.state);
 		})
 	}
 
@@ -49,25 +56,6 @@ export default class extends Component {
 		this.props.musicInfoActions.playControl({playing: true});
 		this.props.history.push(`/play/#${singerSongs[0].split('|')[1]}`);
 	}
-
-	// 此接口被屏蔽了
-	// fetchData() {
-	//     request.asyncGet(`/kugou/${API.singer_detail}${this.props.match.params.id}?json=true&page=${this.state.page}`).then(res => res.json()).then(resData => {
-	//         this.setState({
-	//             loaded: true,
-	//             singerInfo: resData.info,
-	//             singerSongs: [...this.state.singerSongs, ...resData.songs.list],
-	//             page: this.state.page + 1,
-	//         });
-	//         if (this.state.singerSongs.length >= resData.songs.total) {
-	//             this.setState({
-	//                 hasMore: false
-	//             })
-	//         }
-	//     }).catch(err => {
-	//         console.log('Error:' + err);
-	//     })
-	// }
 
 	addFavorite(ele) {
 		//console.log('artistlistsinger addFavorite this.props ', this.props)

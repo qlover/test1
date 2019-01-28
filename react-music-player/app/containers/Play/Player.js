@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import Player from '../../components/Play/Player';
 import * as musicActions from '../../actions/music';
 import * as playActions from '../../actions/play';
-import * as spinActions from '../../actions/spin';
+import * as artistActions from '../../actions/artist';
 import {bindActionCreators} from 'redux';
 
 const mapStateToProps = (state) => {
@@ -16,7 +16,8 @@ const mapStateToProps = (state) => {
         lyrics: state.lyrics,
         spin: state.spin,
         volumeReducer: state.volumeReducer,
-        IANANAME: 'qlover' 
+        IANANAME: 'qlover',
+        singerInfo: state.singerInfo,
 	};
 };
 
@@ -24,7 +25,7 @@ const mapDispatchToProps = (dispatch) =>{
 	return {
 		musicActions: bindActionCreators(musicActions, dispatch),
 		playActions: bindActionCreators(playActions, dispatch),
-		spinActions: bindActionCreators(spinActions, dispatch)
+		artistActions: bindActionCreators(artistActions, dispatch)
 	}
 };
 

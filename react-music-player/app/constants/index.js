@@ -22,3 +22,6 @@ export const SPIN_HIDE = 'SPIN_HIDE';
 /*********** search *******************/
 export const SAVE_SEARCH_HOT = 'SAVE_SEARCH_HOT';
 export const SAVE_SEARCH_RESULT = 'SAVE_SEARCH_RESULT';
+/*********** 歌手信息 *******************/
+export const SINGERINFO_SET = 'SINGERINFO_SET';
+export const SINGERINFO_GET = 'SINGERINFO_GET';

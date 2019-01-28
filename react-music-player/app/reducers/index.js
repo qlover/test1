@@ -29,6 +29,7 @@ import {
 import {
 	playReducer
 } from './play';
+import {singerInfoReducer} from './artist';
 
 // 注册各种类型的 reducer
 // 也就是注册各种属性，
@@ -63,4 +64,6 @@ export default combineReducers({
 	resultList: searchResultListRecuer,
 	// Loading 是否显示
 	spin: spinReducer,
+	// 歌手信息
+	singerInfo: singerInfoReducer,
 });

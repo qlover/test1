@@ -33,7 +33,8 @@ const fetchSearchHot = () => {
         }
     }
 };
-const fetchSearchResult = (keyword, page = 1, pagesize = 20) => {
+const fetchSearchResult = (keyword, page = 1, pagesize = 30) => {
+    console.log('fetchSearchResult >> page, pagesize', page, pagesize)
     return async dispatch => {
         try {
             let result = await request.asyncGet(API.getSearchResult(keyword, page, pagesize));

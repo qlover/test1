@@ -6,7 +6,7 @@ const ROOT_PATH = path.resolve(__dirname);
 const SRC_PATH = path.resolve(ROOT_PATH, 'app');
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
 	mode: 'development',
@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	plugins: [
-		new CleanWebpackPlugin(['dist']),
+		// new CleanWebpackPlugin(['dist']),
 		new HtmlWebpackPlugin({
 			title: 'webpack-react',
 			template: './template/index.html',
@@ -41,10 +41,23 @@ module.exports = {
 			test: /\.js$/,
 			use: 'babel-loader',
 			exclude: /node_modules/
-		},{
-			test: /\.less$/,
-			use: ['style-loader', 'css-loader', 'less-loader'],
+		}, {
+			test: /\.css$/,
+			use: ['style-loader', 'css-loader'],
 			exclude: /node_modules/
+		}, {
+			test: /\.less$/,
+			use: ['less-loader'],
+			exclude: /node_modules/
+		},{
+			test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+			loader: 'url-loader',
+			options: {
+				limit: 20000,
+				name: "[name]-[hash:5].[ext]",
+				publicPath: "images/",
+				outputPath: 'images/'
+			},
 		}]
 	}
 }
